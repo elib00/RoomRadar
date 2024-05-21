@@ -17,7 +17,7 @@
         android:theme="@style/Theme.RoomRadar"
         tools:targetApi="31">
         <activity
-            android:name=".RegisterActivity"
+            android:name=".RegisterTenantActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity

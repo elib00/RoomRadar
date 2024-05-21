@@ -14,10 +14,8 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.example.roomradar.CustomComponents.CustomPasswordTextInputEditText;
 import com.example.roomradar.Database.DatabaseManager;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
@@ -26,16 +24,14 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText email;
     private TextView forgotPassword;
     private Button registerAsTenantButton;
+    private Button registerAsLandlordButton;
     private Button login;
-    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-
-        setFirebaseAuth();
         initializeView();
     }
 
@@ -89,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         password = (TextInputEditText) findViewById(R.id.passwordLoginInput);
 
         registerAsTenantButton = (Button) findViewById(R.id.registerAsTenantButton);
+        registerAsLandlordButton = (Button) findViewById(R.id.registerAsLandlordButton);
 
         forgotPassword = (TextView) findViewById(R.id.forgotPassword);
         login = (Button) findViewById(R.id.loginButton);
@@ -106,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseManager.validateUser(LoginActivity.this, auth, email.getText().toString(), password.getText().toString());
+                DatabaseManager.validateUser(LoginActivity.this, email.getText().toString(), password.getText().toString());
             }
         });
 
@@ -132,14 +129,20 @@ public class LoginActivity extends AppCompatActivity {
         registerAsTenantButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegisterTenantActivity.class);
+                intent.putExtra("isLandlord", false);
                 startActivity(intent);
             }
         });
-    }
 
-    private void setFirebaseAuth(){
-        auth = FirebaseAuth.getInstance();
+        registerAsLandlordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, RegisterTenantActivity.class);
+                intent.putExtra("isLandlord", false);
+                startActivity(intent);
+            }
+        });
     }
 
     private void togglePasswordVisibility(TextInputEditText editText) {

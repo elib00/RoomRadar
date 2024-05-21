@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FEFEFE"
-    android:backgroundTint="#FEFEFE"
+    android:background="#FFFFFF"
+    android:backgroundTint="#FFFFFF"
     tools:context=".HomeFragment">
 
     <ImageView
@@ -72,6 +72,7 @@
                     android:background="#080F39"
                     android:scaleType="centerCrop" />
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="200dp"
                 android:layout_height="150dp"
@@ -85,6 +86,7 @@
                     android:background="#080F39"
                     android:scaleType="centerCrop" />
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="200dp"
                 android:layout_height="150dp"
@@ -122,8 +124,7 @@
     <ScrollView
         android:id="@+id/nearbyRoomsScrollView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_above="@id/bottomNavContainer"
+        android:layout_height="match_parent"
         android:layout_below="@id/nearbyRoomsLabel"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp">
@@ -165,6 +166,7 @@
                         android:textSize="16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -183,8 +185,7 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_marginEnd="8dp"
-                        android:scaleType="centerCrop"
-                 />
+                        android:scaleType="centerCrop" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -196,6 +197,7 @@
                         android:textSize="16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -214,8 +216,7 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_marginEnd="8dp"
-                        android:scaleType="centerCrop"
-                       />
+                        android:scaleType="centerCrop" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -227,6 +228,7 @@
                         android:textSize="16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -245,8 +247,7 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_marginEnd="8dp"
-                        android:scaleType="centerCrop"
-                       />
+                        android:scaleType="centerCrop" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -265,13 +266,4 @@
     </ScrollView>
 
     <!-- Bottom Navigation View -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#FFFFFF"
-        android:padding="5dp"
-        app:menu="@menu/bottom_nav_menu" />
-
 </RelativeLayout>
