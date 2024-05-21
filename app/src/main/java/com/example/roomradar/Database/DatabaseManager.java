@@ -37,6 +37,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -168,12 +170,8 @@ public class DatabaseManager {
         return imagePaths;
     }
 
-    public interface OnUriReadyListener {
-        void onUriReady(Uri uri);
-        void onFailure(Exception e);
-    }
 
-    public static void getImageUriFromStorage(String folderName, String fileName, ImageView imageView) {
+    public static void getImageUriFromStorage(Activity activity, String folderName, String fileName, ImageView imageView) {
         StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(folderName + "/" + fileName);
         storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
@@ -186,15 +184,37 @@ public class DatabaseManager {
                             .placeholder(R.drawable.jeonghanstory)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(imageView);
+
+                    Toast.makeText(activity, "Successful loading profile picture from database" , Toast.LENGTH_SHORT).show();
                 } else {
 
-                    System.out.println("No profile picture yet");
+                    Toast.makeText(activity, "No profile picture uploaded in database" , Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
+    public static ArrayList<BoardingHouse> getAllBoardingHouses(Activity activity){
+        ArrayList<BoardingHouse> listBh = new ArrayList<>();
+        boardingHousesCollection.get().addOnCompleteListener(task -> {
 
+            if (task.isSuccessful()) {
 
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    BoardingHouse bh = document.toObject(BoardingHouse.class);
+                    System.out.println("Ang bh kay " + bh.propertyName);
+                    listBh.add(bh);
+                }
+
+                Toast.makeText(activity, "Successful retrieving all boarding houses from database", Toast.LENGTH_SHORT).show();
+
+            } else {
+                Toast.makeText(activity, "Failed retrieving all boarding houses from database" , Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+        return listBh;
+    }
 
 }
