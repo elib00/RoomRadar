@@ -120,7 +120,11 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
+<<<<<<< HEAD
                 android:id="@+id/signUpButtonTenant"
+=======
+                android:id="@+id/signUpButton"
+>>>>>>> origin/main
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
