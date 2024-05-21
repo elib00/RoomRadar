@@ -8,27 +8,30 @@
     android:background="#ececec">
 
     <LinearLayout
-        android:layout_width="419dp"
-        android:layout_height="754dp"
+        android:layout_width="451dp"
+        android:layout_height="841dp"
         android:background="#FFFFFF"
         android:backgroundTint="#FFFFFF"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout5"
             android:layout_width="match_parent"
-            android:layout_height="177dp">
+            android:layout_height="216dp">
 
             <ImageView
                 android:id="@+id/profileImage"
                 android:layout_width="187dp"
                 android:layout_height="162dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="40dp"
                 app:circularflow_radiusInDP="600dp"
                 app:layout_constraintEnd_toEndOf="parent"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/jeonghanstory" />
+                app:srcCompat="@drawable/profile_icon2" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/uploadProfilePicture"
@@ -48,12 +51,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|top"
             android:layout_marginTop="16dp"
-            android:background="#00000000"
+
             android:text="Jeonghan Yoon"
 
-            android:textColor="#FFFFFF"
-            android:textColorHint="#FFFFFF"
-            android:textColorLink="#F6F1F1"
+
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -64,9 +65,7 @@
             android:layout_gravity="center|top"
             android:background="#00000000"
             android:text="yoonjeonghan@gmail.com"
-            android:textColor="@color/white"
-            android:textColorHighlight="@color/white"
-            android:textColorLink="#FFFFFF"
+
             android:textSize="20sp" />
 
         <androidx.appcompat.widget.AppCompatButton

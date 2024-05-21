@@ -8,6 +8,10 @@
         android:icon="@drawable/location_icon"
         android:id="@+id/mapsItem"/>
 
+    <item android:title="Add Listing"
+        android:icon="@drawable/plus_round_icon"
+        android:id="@+id/addListing"/>
+
     <item android:title="@string/notifications_icon_name"
         android:icon="@drawable/notifications_icon"
         android:id="@+id/notificationsItem"/>

@@ -20,7 +20,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.roomradar.Database.DatabaseManager;
+import com.example.roomradar.Entities.BoardingHouse;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.GeoPoint;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,10 +83,9 @@ public class ProfileFragment extends Fragment {
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView profileImage = view.findViewById(R.id.profileImage);
 
-        DatabaseManager.getImageUriFromStorage(DatabaseManager.currentUserUID, "profilePicture", profileImage);
+        DatabaseManager.getImageUriFromStorage(requireActivity(), DatabaseManager.currentUserUID, "profilePicture", profileImage);
 
         FloatingActionButton uploadProfilePicture = view.findViewById(R.id.uploadProfilePicture);
-
         ActivityResultLauncher<Intent> resultLauncher;
 
         resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {

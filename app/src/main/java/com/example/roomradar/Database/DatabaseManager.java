@@ -37,6 +37,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -104,8 +106,6 @@ public class DatabaseManager {
 
                         currentUserUID = userUID;
 
-                        //TO DO
-                        //QUERY USING UID IF LANDLORD OR TENANT
 
                         context.startActivity(intent);
                         activity.finish();
@@ -128,7 +128,7 @@ public class DatabaseManager {
     }
 
     private static void createFolderToCloud(Activity activity, String userUID) {
-        StorageReference folderRef = storage.getReference().child(userUID);
+        StorageReference folderRef = storage.getReference().child(userUID + "/");
 
         folderRef.putBytes(new byte[0])
                 .addOnSuccessListener(taskSnapshot -> {
@@ -136,6 +136,20 @@ public class DatabaseManager {
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(activity, "Failed to create folder: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+
+        createFolderToCloudBoardingHouse(activity, userUID);
+    }
+
+    public static void createFolderToCloudBoardingHouse(Activity activity, String userUID){
+        StorageReference folderRef = storage.getReference().child("BoardingHouseStorage/").child(userUID);
+
+        folderRef.putBytes(new byte[0])
+                .addOnSuccessListener(taskSnapshot -> {
+                    Toast.makeText(activity, "Folder created successfully for boardinghouse", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(activity, "Failed to create folder boardinghouse" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 
@@ -168,12 +182,7 @@ public class DatabaseManager {
         return imagePaths;
     }
 
-    public interface OnUriReadyListener {
-        void onUriReady(Uri uri);
-        void onFailure(Exception e);
-    }
-
-    public static void getImageUriFromStorage(String folderName, String fileName, ImageView imageView) {
+    public static void getImageUriFromStorage(Activity activity, String folderName, String fileName, ImageView imageView) {
         StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(folderName + "/" + fileName);
         storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
@@ -183,18 +192,44 @@ public class DatabaseManager {
 
                     Glide.with(imageView.getContext())
                             .load(downloadUri)
-                            .placeholder(R.drawable.jeonghanstory)
+                            .placeholder(R.drawable.profile_icon2)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(imageView);
+
+                    Toast.makeText(activity, "Successful loading profile picture from database" , Toast.LENGTH_SHORT).show();
                 } else {
 
-                    System.out.println("No profile picture yet");
+                    Toast.makeText(activity, "No profile picture uploaded in database" , Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
+    public static ArrayList<BoardingHouse> getAllBoardingHouses(Activity activity){
+        ArrayList<BoardingHouse> listBh = new ArrayList<>();
+        boardingHousesCollection.get().addOnCompleteListener(task -> {
 
+            if (task.isSuccessful()) {
 
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    BoardingHouse bh = document.toObject(BoardingHouse.class);
+                    System.out.println("Ang bh kay " + bh.propertyName);
+                    listBh.add(bh);
+                }
+
+                Toast.makeText(activity, "Successful retrieving all boarding houses from database", Toast.LENGTH_SHORT).show();
+
+            } else {
+                Toast.makeText(activity, "Failed retrieving all boarding houses from database" , Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+        return listBh;
+    }
+
+    public static void listBoardingHouse(BoardingHouse bh){
+        boardingHousesCollection.add(bh);
+    }
 
 }
