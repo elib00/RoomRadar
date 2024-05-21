@@ -9,16 +9,20 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.roomradar.Entities.BoardingHouse;
 import com.example.roomradar.Entities.User;
 import com.example.roomradar.LoginActivity;
 import com.example.roomradar.MainActivity;
+import com.example.roomradar.R;
 import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -36,6 +40,7 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.firebase.vertexai.type.RequestOptions;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -45,6 +50,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+
+
 public class DatabaseManager {
 
     public static FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -52,6 +59,7 @@ public class DatabaseManager {
     public static FirebaseFirestore database = FirebaseFirestore.getInstance();
     public static CollectionReference boardingHousesCollection = database.collection("boardinghouses");
     public static CollectionReference userProfileCollection = database.collection("userprofile");
+    public static String currentUserUID;
 
     private static final int REQUEST_STORAGE_PERMISSION = 100;
 
@@ -70,6 +78,7 @@ public class DatabaseManager {
                             Intent intent = new Intent(context, LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             Toast.makeText(activity, "Register Successful. ", Toast.LENGTH_SHORT).show();
+                            createFolderToCloud(activity, userUID);
                             context.startActivity(intent);
                             activity.finish();
 
@@ -92,6 +101,8 @@ public class DatabaseManager {
                         Toast.makeText(activity, "Login Successful. ", Toast.LENGTH_SHORT).show();
 
                         String userUID = Objects.requireNonNull(authResult.getUser()).getUid();
+
+                        currentUserUID = userUID;
 
                         //TO DO
                         //QUERY USING UID IF LANDLORD OR TENANT
@@ -128,13 +139,10 @@ public class DatabaseManager {
                 });
     }
 
-    public static void uploadImageToFolder(Activity activity, String folderName, String fileName, String imagePath) {
+    public static void uploadImageToFolder(Activity activity, String folderName, String fileName, Uri imageUri) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference folderRef = storage.getReference().child(folderName);
         StorageReference imageRef = folderRef.child(fileName);
-
-        File file = new File(imagePath);
-        Uri imageUri = Uri.fromFile(file);
 
         imageRef.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot -> {
@@ -156,8 +164,37 @@ public class DatabaseManager {
             }
             cursor.close();
         }
+
         return imagePaths;
     }
+
+    public interface OnUriReadyListener {
+        void onUriReady(Uri uri);
+        void onFailure(Exception e);
+    }
+
+    public static void getImageUriFromStorage(String folderName, String fileName, ImageView imageView) {
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(folderName + "/" + fileName);
+        storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+
+                    Glide.with(imageView.getContext())
+                            .load(downloadUri)
+                            .placeholder(R.drawable.jeonghanstory)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(imageView);
+                } else {
+
+                    System.out.println("No profile picture yet");
+                }
+            }
+        });
+    }
+
+
 
 
 }

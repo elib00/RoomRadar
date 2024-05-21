@@ -40,8 +40,6 @@ public class RegisterTenantActivity extends AppCompatActivity {
         passwordSignUpTenantInput = findViewById(R.id.passwordSignUpTenantInput);
         signUpButtonTenant = findViewById(R.id.signUpButtonTenant);
 
-
-
         signUpButtonTenant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

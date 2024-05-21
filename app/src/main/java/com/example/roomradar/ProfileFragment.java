@@ -1,12 +1,26 @@
 package com.example.roomradar;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.example.roomradar.Database.DatabaseManager;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +37,8 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -58,7 +74,40 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView profileImage = view.findViewById(R.id.profileImage);
+
+        DatabaseManager.getImageUriFromStorage(DatabaseManager.currentUserUID, "profilePicture", profileImage);
+
+        FloatingActionButton uploadProfilePicture = view.findViewById(R.id.uploadProfilePicture);
+
+        ActivityResultLauncher<Intent> resultLauncher;
+
+        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            try {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    assert result.getData() != null;
+                    Uri imageUri = result.getData().getData();
+                    DatabaseManager.uploadImageToFolder(requireActivity(), DatabaseManager.currentUserUID, "profilePicture", imageUri);
+                    profileImage.setImageURI(imageUri);
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        uploadProfilePicture.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            resultLauncher.launch(intent);
+        });
+
+        return view;
     }
+
+
+
+
 }

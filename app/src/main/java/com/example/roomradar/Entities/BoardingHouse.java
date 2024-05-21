@@ -8,9 +8,6 @@ public class BoardingHouse {
     public String propertyName;
     public GeoPoint location;
     public HashMap<String, String> address;
-    public String propertyType;
-    public String rentalType;
-    public int numberOfBedrooms;
     public int numberOfBeds;
     public int numberOfBathrooms;
     public HashMap<String, Boolean> amenities;
@@ -33,15 +30,12 @@ public class BoardingHouse {
             boardingHouse.propertyName = "default";
             boardingHouse.location = new GeoPoint(0,0);
             boardingHouse.address = new HashMap<>();
-            boardingHouse.propertyType = "default";
-            boardingHouse.rentalType = "default";
-            boardingHouse.numberOfBedrooms = 0;
             boardingHouse.numberOfBeds = 0;
             boardingHouse.numberOfBathrooms = 0;
             boardingHouse.amenities = new HashMap<>();
             boardingHouse.allowPets = false;
             boardingHouse.mainPhoto = "defaultPath";
-            boardingHouse.bedroomPhotos = new String[]{"defaultPath1", "defaultPath2"};
+            boardingHouse.bedroomPhotos = new String[]{};
             boardingHouse.description = "default";
             boardingHouse.rules = "default";
             boardingHouse.monthlyRate = 0;
@@ -74,21 +68,6 @@ public class BoardingHouse {
             return this;
         }
 
-        public Builder setPropertyType(String propertyType) {
-            boardingHouse.propertyType = propertyType;
-            return this;
-        }
-
-        public Builder setRentalType(String rentalType) {
-            boardingHouse.rentalType = rentalType;
-            return this;
-        }
-
-        public Builder setNumberOfBedrooms(int numberOfBedrooms){
-            boardingHouse.numberOfBedrooms = numberOfBedrooms;
-            return this;
-        }
-
         public Builder setNumberOfBeds(int numberOfBeds){
             boardingHouse.numberOfBeds = numberOfBeds;
             return this;
@@ -99,7 +78,13 @@ public class BoardingHouse {
             return this;
         }
 
-        public Builder setAmenities(HashMap<String, Boolean> amenities){
+        public Builder setAmenities(Boolean kitchen, Boolean parking, Boolean ac, Boolean refrigerator){
+            HashMap<String, Boolean> amenities = new HashMap<>();
+            amenities.put("wifi", kitchen);
+            amenities.put("water", parking);
+            amenities.put("electricity", ac);
+            amenities.put("maintenance", refrigerator);
+
             boardingHouse.amenities = amenities;
             return this;
         }
