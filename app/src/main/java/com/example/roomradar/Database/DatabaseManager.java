@@ -65,6 +65,11 @@ public class DatabaseManager {
 
     private static final int REQUEST_STORAGE_PERMISSION = 100;
 
+    public interface FetchBoardingHousesCallback {
+        void onComplete(ArrayList<BoardingHouse> boardingHouses);
+    }
+
+
     public static void registerUser(Activity activity, String email, String password, User user) {
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
@@ -194,7 +199,7 @@ public class DatabaseManager {
         });
     }
 
-    public static ArrayList<BoardingHouse> getAllBoardingHouses(Activity activity){
+    public static void getAllBoardingHouses(Activity activity, FetchBoardingHousesCallback callback){
         ArrayList<BoardingHouse> listBh = new ArrayList<>();
         boardingHousesCollection.get().addOnCompleteListener(task -> {
 
@@ -212,9 +217,8 @@ public class DatabaseManager {
                 Toast.makeText(activity, "Failed retrieving all boarding houses from database" , Toast.LENGTH_SHORT).show();
             }
 
+            callback.onComplete(listBh);
         });
-
-        return listBh;
     }
 
 }
