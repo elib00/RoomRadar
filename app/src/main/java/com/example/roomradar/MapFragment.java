@@ -68,7 +68,6 @@ public class MapFragment extends Fragment {
     private SupportMapFragment supportMapFragment;
     private Circle circle;
     private SearchView locationSearchView;
-    String apiKey;
 
     public MapFragment() {
         // Required empty public constructor
@@ -181,6 +180,7 @@ public class MapFragment extends Fragment {
                                     .center(currentLocation)
                                     .radius(3000) // 3 kilometers in meters
                                     .strokeWidth(2)
+                                    .strokeWidth(2)
                                     .strokeColor(Color.RED)
                                     .fillColor(Color.parseColor("#30ff0000")); // Transparent red color with 30% opacity\\
 
@@ -275,16 +275,16 @@ public class MapFragment extends Fragment {
     }
 
     private boolean isWithinRange(GeoPoint location1, GeoPoint location2, int range){
-        Location referenceLcation = new Location("referenceLocation");
-        referenceLcation.setLatitude(location1.getLatitude());
-        referenceLcation.setLongitude(location1.getLongitude());
+        Location referenceLocation = new Location("referenceLocation");
+        referenceLocation.setLatitude(location1.getLatitude());
+        referenceLocation.setLongitude(location1.getLongitude());
 
         Location candidateLocation = new Location("candidateLocation");
-        candidateLocation.setLatitude(location1.getLatitude());
-        candidateLocation.setLongitude(location1.getLongitude());
+        candidateLocation.setLatitude(location2.getLatitude());
+        candidateLocation.setLongitude(location2.getLongitude());
 
-        double distance = referenceLcation.distanceTo(candidateLocation);
-
+        double distance = referenceLocation.distanceTo(candidateLocation);
+        System.out.println("Distance in km: " + (distance / 1000));
         return (distance / 1000) <= range;
     }
 
