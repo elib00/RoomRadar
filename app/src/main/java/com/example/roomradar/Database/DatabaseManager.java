@@ -144,6 +144,20 @@ public class DatabaseManager {
                 .addOnFailureListener(e -> {
                     Toast.makeText(activity, "Failed to create folder: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+
+        createFolderToCloudBoardingHouse(activity, userUID);
+    }
+
+    public static void createFolderToCloudBoardingHouse(Activity activity, String userUID){
+        StorageReference folderRef = storage.getReference().child("BoardingHouseStorage/").child(userUID);
+
+        folderRef.putBytes(new byte[0])
+                .addOnSuccessListener(taskSnapshot -> {
+                    Toast.makeText(activity, "Folder created successfully for boardinghouse", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(activity, "Failed to create folder boardinghouse" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
     public static void uploadImageToFolder(Activity activity, String folderName, String fileName, Uri imageUri) {

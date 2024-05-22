@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="#FFFFFF"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:scrollbarSize="1dp">
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:max="100"
+        android:progress="50"
+        android:progressTint="#213395" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Create Listing"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Property Name"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_property_name"
+                android:layout_width="350dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_search_view"
+                android:backgroundTint="#91BAC5"
+                android:gravity="center|fill_horizontal"
+                android:hint="Enter property name"
+                android:paddingLeft="20dp"
+                android:textColor="#050505"
+                android:textColorLink="#020202"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Address"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_state_province"
+                android:layout_width="350dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_search_view"
+                android:backgroundTint="#91BAC5"
+                android:hint="State/Province"
+                android:paddingLeft="20dp"
+                android:textColor="#0A1349"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/et_city_municipality"
+                android:layout_width="350dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_search_view"
+                android:backgroundTint="#91BAC5"
+                android:hint="City/Municipality"
+                android:paddingLeft="20dp"
+                android:textColor="#0A1349"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/et_barangay"
+                android:layout_width="350dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_search_view"
+                android:backgroundTint="#91BAC5"
+                android:hint="Barangay"
+                android:paddingLeft="20dp"
+                android:textColor="#0A1349"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/et_street"
+                android:layout_width="350dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_search_view"
+                android:backgroundTint="#91BAC5"
+                android:hint="Street"
+                android:paddingLeft="20dp"
+                android:textColor="#0A1349"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+
+                android:text="Amenities"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_beds"
+                android:layout_width="350dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_search_view"
+                android:backgroundTint="#91BAC5"
+                android:hint="Number of beds"
+                android:inputType="number"
+                android:paddingLeft="20dp"
+                android:textColor="#0A1349"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/et_bathrooms"
+                android:layout_width="350dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_search_view"
+                android:backgroundTint="#91BAC5"
+                android:hint="Number of bathrooms"
+                android:inputType="number"
+                android:paddingLeft="20dp"
+                android:textColor="#0A1349"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Amenities"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cb_wifi"
+                    android:layout_width="74dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:text="Wi-Fi"
+                    android:textSize="12sp" />
+
+                <CheckBox
+                    android:id="@+id/cb_kitchen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="16dp"
+                    android:text="Kitchen"
+                    android:textSize="12sp" />
+
+                <CheckBox
+                    android:id="@+id/cb_washer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:text="Washer"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cb_parking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="16dp"
+                    android:text="Parking"
+                    android:textSize="12sp" />
+
+                <CheckBox
+                    android:id="@+id/cb_ac"
+                    android:layout_width="75dp"
+                    android:layout_height="48dp"
+                    android:text="A/C"
+                    android:textSize="12sp" />
+
+                <CheckBox
+                    android:id="@+id/cb_refrigerator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="16dp"
+                    android:text="Refrigerator"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/sw_allow_pets"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:text="Allow pets" />
+
+            <Button
+                android:id="@+id/btn_continue"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#0B1455"
+                android:text="Continue"
+                android:textColor="#ffffff" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
