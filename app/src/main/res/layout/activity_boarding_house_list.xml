@@ -16,11 +16,11 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginBottom="10dp"
-        android:queryHint="Search location"
-        android:iconifiedByDefault="false"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/bg_search_view"
         android:elevation="5dp"
-        app:queryHint="Search..." />
+        android:iconifiedByDefault="false"
+        android:queryHint="Search for a place" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -30,6 +30,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
         tools:listitem="@layout/boardinghouse_item" />
 
 </LinearLayout>
