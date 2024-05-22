@@ -50,7 +50,7 @@
                 android:background="#E0E0E0"
                 android:contentDescription="Selected Image 1"
                 android:scaleType="centerCrop"
-                android:src="@drawable/UploadImage" />
+                android:src="@drawable/upload_image_placeholder" />
 
             <Button
                 android:id="@+id/btn_choose_photo1"
@@ -70,7 +70,7 @@
                 android:background="#E0E0E0"
                 android:contentDescription="Selected Image 2"
                 android:scaleType="centerCrop"
-                android:src="@drawable/UploadImage" />
+                android:src="@drawable/upload_image_placeholder" />
 
             <Button
                 android:id="@+id/btn_choose_photo2"
@@ -90,7 +90,7 @@
                 android:background="#E0E0E0"
                 android:contentDescription="Selected Image 3"
                 android:scaleType="centerCrop"
-                android:src="@drawable/UploadImage" />
+                android:src="@drawable/upload_image_placeholder" />
 
             <Button
                 android:id="@+id/btn_choose_photo3"

@@ -1,49 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="#ececec">
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="216dp">
+
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="187dp"
+            android:layout_height="162dp"
+            android:layout_marginTop="40dp"
+            app:circularflow_radiusInDP="600dp"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/profile_icon2" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/uploadProfilePicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-60dp"
+            android:clickable="true"
+            app:layout_constraintEnd_toEndOf="@+id/profileImage"
+            app:layout_constraintTop_toBottomOf="@+id/profileImage"
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:layout_width="451dp"
-        android:layout_height="841dp"
-        android:background="#FFFFFF"
-        android:backgroundTint="#FFFFFF"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="-1dp"
-        tools:layout_editor_absoluteY="1dp">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/linearLayout5"
-            android:layout_width="match_parent"
-            android:layout_height="216dp">
-
-            <ImageView
-                android:id="@+id/profileImage"
-                android:layout_width="187dp"
-                android:layout_height="162dp"
-                android:layout_marginTop="40dp"
-                app:circularflow_radiusInDP="600dp"
-                app:layout_constraintEnd_toEndOf="parent"
-
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/profile_icon2" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/uploadProfilePicture"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-60dp"
-                android:clickable="true"
-                app:layout_constraintEnd_toEndOf="@+id/profileImage"
-                app:layout_constraintTop_toBottomOf="@+id/profileImage"
-                app:srcCompat="@android:drawable/ic_menu_gallery" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView"
@@ -67,9 +63,15 @@
             android:text="yoonjeonghan@gmail.com"
 
             android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
+            android:id="@+id/editProfileButton"
             style="@android:style/Widget.Button"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -78,15 +80,18 @@
             android:layout_marginEnd="32dp"
 
             android:layout_marginBottom="10dp"
+            android:backgroundTint="#8F00BCD4"
             android:drawablePadding="20dp"
             android:paddingStart="20dp"
+            android:shadowRadius="2"
             android:text="Edit Profile"
             android:textAlignment="viewStart"
+            android:textColorLink="#0B1650"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button2"
+            android:id="@+id/changePasswordButton"
             style="@android:style/Widget.Button"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -94,15 +99,18 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="10dp"
+            android:backgroundTint="#8F00BCD4"
             android:drawablePadding="20dp"
             android:paddingStart="20dp"
+            android:shadowRadius="2"
             android:text="Change Password"
             android:textAlignment="viewStart"
+            android:textColorLink="#0B1650"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button3"
+            android:id="@+id/logoutButton"
             style="@android:style/Widget.Button"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -110,58 +118,16 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="10dp"
+            android:backgroundTint="#8F00BCD4"
             android:drawablePadding="20dp"
             android:paddingStart="20dp"
-
-            android:text="Payment"
+            android:shadowRadius="2"
+            android:text="Log Out"
             android:textAlignment="viewStart"
+            android:textColorLink="#0B1650"
             android:textSize="18sp"
             android:textStyle="bold" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button4"
-            style="@android:style/Widget.Button"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="10dp"
-            android:drawablePadding="20dp"
-            android:paddingStart="20dp"
-            android:text="Notification"
-            android:textAlignment="viewStart"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:barrierDirection="left" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button5"
-            style="@android:style/Widget.Button"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="10dp"
-            android:drawablePadding="20dp"
-            android:paddingStart="20dp"
-            android:text="Logout"
-            android:textAlignment="viewStart"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

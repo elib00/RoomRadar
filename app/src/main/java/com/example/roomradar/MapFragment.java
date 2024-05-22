@@ -179,20 +179,20 @@ public class MapFragment extends Fragment {
                             LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                             MarkerOptions markerOptions = new MarkerOptions().position(currentLocation).title("Current location");
 
-                            CircleOptions circleOptions = new CircleOptions()
-                                    .center(currentLocation)
-                                    .radius(3000) // 3 kilometers in meters
-                                    .strokeWidth(2)
-                                    .strokeWidth(2)
-                                    .strokeColor(Color.RED)
-                                    .fillColor(Color.parseColor("#30ff0000")); // Transparent red color with 30% opacity\\
+//                            CircleOptions circleOptions = new CircleOptions()
+//                                    .center(currentLocation)
+//                                    .radius(1000) // 3 kilometers in meters
+//                                    .strokeWidth(2)
+//                                    .strokeWidth(2)
+//                                    .strokeColor(Color.RED)
+//                                    .fillColor(Color.parseColor("#30ff0000")); // Transparent red color with 30% opacity\\
 
                             //to ensure that the circles do not lay on top of each other
                             if (circle != null) {
                                 circle.remove();
                             }
 
-                            circle = googleMap.addCircle(circleOptions);
+//                            circle = googleMap.addCircle(circleOptions);
 
                             googleMap.addMarker(markerOptions);
                             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f));

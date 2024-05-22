@@ -1,14 +1,25 @@
 package com.example.roomradar;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
+
+import com.google.api.Distribution;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +38,7 @@ public class HomeFragment extends Fragment {
     private String mParam2;
 
     private SearchView homeSearchView;
+    private LinearLayout searchViewContainer;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -68,8 +80,10 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+        @SuppressLint("ClickableViewAccessibility")
         private void initializeFragment(View view){
             homeSearchView = (SearchView) view.findViewById(R.id.homeSearchView);
+            searchViewContainer = (LinearLayout) view.findViewById(R.id.homeSearchViewContainer);
 //        homeSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
 //            @Override
 //            public void onFocusChange(View view, boolean hasFocus) {
@@ -89,5 +103,42 @@ public class HomeFragment extends Fragment {
                     startActivity(intent);
             }
         });
+
+        searchViewContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(requireContext(), BoardingHouseListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+//        searchViewContainer.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                    // Check if the touch event is outside the SearchView
+//                    if (!(v instanceof SearchView) && requireActivity().getCurrentFocus() instanceof SearchView) {
+//                        // Hide the keyboard and clear focus from the SearchView
+//                        InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                        imm.hideSoftInputFromWindow(requireActivity().getCurrentFocus().getWindowToken(), 0);
+//                        requireActivity().getCurrentFocus().clearFocus();
+//                    }
+//                }
+//
+//                return true;
+//            }
+//        });
+
+
+//        searchViewContainer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//                @Override
+//                public void onFocusChange(View v, boolean hasFocus) {
+//                    if (hasFocus) {
+//                        Intent intent = new Intent(requireContext(), BoardingHouseListActivity.class);
+//                        startActivity(intent);
+//                    }
+//                }
+//            });
+
     }
 }

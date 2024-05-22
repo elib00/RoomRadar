@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/listingOneLayout"
     android:layout_width="match_parent"
@@ -30,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/textView5"
@@ -54,14 +54,15 @@
                 android:layout_width="350dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
-                android:background="@drawable/bg_search_view"
+                android:background="@drawable/input_corners"
                 android:backgroundTint="#91BAC5"
                 android:gravity="center|fill_horizontal"
                 android:hint="Enter property name"
-                android:paddingLeft="20dp"
+                android:paddingStart="20dp"
                 android:textColor="#050505"
                 android:textColorLink="#020202"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                />
 
             <TextView
                 android:layout_width="match_parent"
@@ -127,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
 
-                android:text="Amenities"
+                android:text="Beds and Bathrooms"
                 android:textStyle="bold" />
 
             <EditText

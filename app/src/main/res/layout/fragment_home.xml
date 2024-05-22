@@ -26,15 +26,16 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/homeSearchViewContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:orientation="horizontal">
 
         <SearchView
             android:id="@+id/homeSearchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:background="@drawable/bg_search_view"
             android:elevation="5dp"
             android:iconifiedByDefault="false"

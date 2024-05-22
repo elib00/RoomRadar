@@ -214,10 +214,10 @@ public class DatabaseManager {
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(imageView);
 
-                    Toast.makeText(activity, "Successful loading profile picture from database" , Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(activity, "Successful loading profile picture from database" , Toast.LENGTH_SHORT).show();
                 } else {
 
-                    Toast.makeText(activity, "No profile picture uploaded in database" , Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(activity, "No profile picture uploaded in database" , Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -235,7 +235,7 @@ public class DatabaseManager {
                     listBh.add(bh);
                 }
 
-                Toast.makeText(activity, "Successful retrieving all boarding houses from database", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(activity, "Successful retrieving all boarding houses from database", Toast.LENGTH_SHORT).show();
 
             } else {
                 Toast.makeText(activity, "Failed retrieving all boarding houses from database" , Toast.LENGTH_SHORT).show();
