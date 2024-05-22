@@ -266,7 +266,7 @@ public class MapFragment extends Fragment {
                         @Override
                         public void onComplete(ArrayList<BoardingHouse> boardingHouses) {
                             ArrayList<BoardingHouse> boardingHousesInRange = placesWithinRangeInMap(queryLocation, boardingHouses, 5);
-                            updateMapLocation(boardingHousesInRange, 5, queryLocation.getLatitude(), queryLocation.getLongitude());
+                            updateMapLocation(boardingHousesInRange, 1, queryLocation.getLatitude(), queryLocation.getLongitude());
                         }
                     });
                 }
@@ -299,13 +299,6 @@ public class MapFragment extends Fragment {
 
         return null;
     }
-
-//    private void showLocationInMap(GeoPoint location, ){
-//        double latitude = location.getLatitude();
-//        double longitude = location.getLongitude();
-//        ArrayList<BoardingHouse> boardingHousesInRange = placesWithinRangeInMap(new GeoPoint(latitude, longitude), 5);
-//        updateMapLocation(boardingHousesInRange, 5, latitude, longitude);
-//    }
 
     private boolean isWithinRange(GeoPoint location1, GeoPoint location2, int range){
         Location referenceLocation = new Location("referenceLocation");
