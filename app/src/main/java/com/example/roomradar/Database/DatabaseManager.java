@@ -174,23 +174,33 @@ public class DatabaseManager {
                 });
     }
 
-    public static List<String> getImagePathsFromGallery(Context context) {
-        List<String> imagePaths = new ArrayList<>();
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, null);
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                @SuppressLint("Range") String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-                imagePaths.add(path);
+    public static ArrayList<String> getImagePathsFromGallery(Context context) {
+        ArrayList<String> imagePaths = new ArrayList<>();
+
+        if (hasStoragePermission(context)) {
+            String[] projection = {MediaStore.Images.Media.DATA};
+
+            try (Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, null)) {
+                if (cursor != null) {
+                    while (cursor.moveToNext()) {
+                        @SuppressLint("Range") String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                        imagePaths.add(path);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
             }
-            cursor.close();
+        } else {
+
+            requestStoragePermission((Activity) context);
         }
 
         return imagePaths;
     }
 
 
-    public static void getImageUriFromStorage(Activity activity, String folderName, String fileName, ImageView imageView) {
+    public static void syncImageViewFromDatabase(Activity activity, String folderName, String fileName, ImageView imageView) {
         StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(folderName + "/" + fileName);
         storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
