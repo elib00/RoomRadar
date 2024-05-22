@@ -83,7 +83,7 @@ public class ProfileFragment extends Fragment {
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView profileImage = view.findViewById(R.id.profileImage);
 
-        DatabaseManager.getImageUriFromStorage(requireActivity(), DatabaseManager.currentUserUID, "profilePicture", profileImage);
+        DatabaseManager.syncImageViewFromDatabase(requireActivity(), DatabaseManager.currentUserUID, "profilePicture", profileImage);
 
         FloatingActionButton uploadProfilePicture = view.findViewById(R.id.uploadProfilePicture);
         ActivityResultLauncher<Intent> resultLauncher;

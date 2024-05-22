@@ -1,14 +1,16 @@
 package com.example.roomradar;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +27,13 @@ public class AddListingFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private static final String ARGUMENT_LAYOUT_TYPE = "layout_type";
+
+    private int layoutType;
+
+    private Button nextListingPageButton;
+
 
     public AddListingFragment() {
         // Required empty public constructor
@@ -48,31 +57,64 @@ public class AddListingFragment extends Fragment {
         return fragment;
     }
 
+    public static AddListingFragment newInstance(int layoutType) {
+        AddListingFragment fragment = new AddListingFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARGUMENT_LAYOUT_TYPE, layoutType);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+            layoutType = getArguments().getInt(ARGUMENT_LAYOUT_TYPE);
+        }else{
+            layoutType = 1;
         }
-
-
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_add_listing, container, false);
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) LinearLayout dynamic = view.findViewById(R.id.dynamic_layout);
-
-        LayoutInflater inflater1 = LayoutInflater.from(requireActivity());
-
-        @SuppressLint("ResourceType") LinearLayout listing1 = (LinearLayout) inflater1.inflate(R.id.linearlayout1, null);
-        dynamic.addView(listing1);
+        View view;
+        if (layoutType == 2) {
+            view = inflater.inflate(R.layout.fragment_createlisting2, container, false);
+        } else {
+            view = inflater.inflate(R.layout.fragment_createlisting1, container, false);
+            initializeListing1Fragment(view);
+        }
 
         return view;
     }
 
+    private void initializeListing1Fragment(View view){
+        nextListingPageButton = (Button) view.findViewById(R.id.nextListingPageButton);
 
+        nextListingPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment();
+            }
+        });
+    }
+
+    private void initializeListing2Fragment(View view){
+        nextListingPageButton = (Button) view.findViewById(R.id.nextListingPageButton);
+
+        nextListingPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment();
+            }
+        });
+    }
+
+    private void replaceFragment(){
+        AddListingFragment newFragment = AddListingFragment.newInstance(2);
+        getParentFragmentManager().beginTransaction().replace(R.id.fragmentsContainer, newFragment).commit();
+    }
 }

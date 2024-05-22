@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/listingOneLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:background="#FFFFFF"
-    android:padding="16dp"
     android:orientation="vertical"
-    android:scrollbarSize="1dp">
+    android:padding="16dp"
+    android:scrollbarSize="1dp"
+    tools:context=".AddListingFragment">
 
     <ProgressBar
         android:id="@+id/progress"
@@ -233,7 +237,7 @@
                 android:text="Allow pets" />
 
             <Button
-                android:id="@+id/btn_continue"
+                android:id="@+id/nextListingPageButton"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:layout_marginTop="16dp"

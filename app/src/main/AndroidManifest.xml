@@ -17,12 +17,15 @@
         android:theme="@style/Theme.RoomRadar"
         tools:targetApi="31">
         <activity
+            android:name=".AddListingActivity"
+            android:exported="false" />
+        <activity
             android:name=".BoardingHouseDetails"
             android:exported="false" />
         <activity
             android:name=".BoardingHouseListActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".RegisterTenantActivity"
             android:exported="false"
@@ -31,7 +34,6 @@
             android:name=".LoginActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".SplashActivity"
             android:exported="true">
@@ -44,13 +46,12 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
-
     </application>
 
 </manifest>

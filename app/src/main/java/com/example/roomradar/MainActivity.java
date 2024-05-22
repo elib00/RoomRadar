@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.roomradar.Entities.BoardingHouse;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -31,6 +33,12 @@ public class MainActivity extends AppCompatActivity {
         initializeView();
     }
 
+//    public static void changeListingPage(FragmentManager fragmentManager){
+//        AddListingFragment addListingFragment = AddListingFragment.newInstance(2);
+//        fragmentManager.beginTransaction().replace(R.id.fragmentsContainer, addListingFragment).commit();
+//    }
+
+//
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
@@ -40,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
 //            double latitude = data.getDoubleExtra("latitude", 0.0);
 //            double longitude = data.getDoubleExtra("longitude", 0.0); // Get longitude value
 //
-//            mapFragment = MapFragment.newInstance(latitude, longitude);
-//            bottomNavigationView.setSelectedItemId(R.id.map);
-//            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentsContainer, mapFragment).commit();
+//            addListingFragment = AddListingFragment.newInstance(2);
+//            bottomNavigationView.setSelectedItemId(R.id.mapsItem);
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentsContainer, addListingFragment).commit();
 //        }
 //
 //        System.out.println("debugging");
@@ -113,6 +121,9 @@ public class MainActivity extends AppCompatActivity {
                 }else if(item.getItemId() == R.id.profileItem){
                     System.out.println("profile ni");
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragmentsContainer, profileFragment).addToBackStack(null).commit();
+                }else if(item.getItemId() == R.id.addListingItem){
+                    System.out.println("add listing ni");
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentsContainer,  new AddListingFragment()).addToBackStack(null).commit();
                 }
 
                 return true;
