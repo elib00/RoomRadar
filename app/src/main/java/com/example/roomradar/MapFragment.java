@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,8 @@ import android.widget.Adapter;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.example.roomradar.Database.DatabaseManager;
+import com.example.roomradar.Entities.BoardingHouse;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -122,8 +125,8 @@ public class MapFragment extends Fragment {
         if(args != null){
             double latitude = args.getDouble("latitude", 0.0);
             double longitude = args.getDouble("longitude", 0.0);
-            updateMapLocation(latitude, longitude);
-            setArguments(null);
+//            updateMapLocation(latitude, longitude);
+//            setArguments(null);
         }else{
             fusedLocationProviderClient = (FusedLocationProviderClient) LocationServices.getFusedLocationProviderClient(requireActivity());
 
@@ -202,26 +205,49 @@ public class MapFragment extends Fragment {
         });
     }
 
-    public void updateMapLocation(double latitude, double longitude){
+    public void updateMapLocation(ArrayList<BoardingHouse> boardingHouses, int range, double latitude, double longitude){
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
+            //               a                           int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(@NonNull GoogleMap googleMap) {
                 googleMap.clear();
                 LatLng newLocation = new LatLng(latitude, longitude);
-                MarkerOptions markerOptions = new MarkerOptions().position(newLocation).title("Current location");
-                googleMap.addMarker(markerOptions);
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newLocation, 20f));
+
+                for(BoardingHouse boardingHouse : boardingHouses){
+                    GeoPoint boardingHouseLocation = boardingHouse.location;
+                    LatLng location = new LatLng(boardingHouseLocation.getLatitude(), boardingHouseLocation.getLongitude());
+                    MarkerOptions locationMarker = new MarkerOptions().position(location).title("Nearby boardinghouse");
+                    System.out.println("Latitude: " + boardingHouseLocation.getLatitude() + " Longitude: " + boardingHouseLocation.getLongitude());
+                    googleMap.addMarker(locationMarker);
+                }
+
+                LatLng currentLocation = new LatLng(latitude, longitude);
+                MarkerOptions currentLocationMarker = new MarkerOptions().position(currentLocation).title("Current location");
+
+
+                CircleOptions circleOptions = new CircleOptions()
+                        .center(currentLocation)
+                        .radius(range * 1000) // 3 kilometers in meters
+                        .strokeWidth(2)
+                        .strokeWidth(2)
+                        .strokeColor(Color.RED)
+                        .fillColor(Color.parseColor("#30ff0000")); // Transparent red color with 30% opacity\\
+
+
+                googleMap.addCircle(circleOptions);
+                googleMap.addMarker(currentLocationMarker);
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newLocation, 15f));
             }
         });
     }
@@ -236,7 +262,13 @@ public class MapFragment extends Fragment {
                 if(queryLocation == null){
                     Toast.makeText(requireContext(), "Location not found", Toast.LENGTH_SHORT).show();
                 }else{
-                    showLocationInMap(queryLocation);
+                    DatabaseManager.getAllBoardingHouses(requireActivity(), new DatabaseManager.FetchBoardingHousesCallback() {
+                        @Override
+                        public void onComplete(ArrayList<BoardingHouse> boardingHouses) {
+                            ArrayList<BoardingHouse> boardingHousesInRange = placesWithinRangeInMap(queryLocation, boardingHouses, 5);
+                            updateMapLocation(boardingHousesInRange, 1, queryLocation.getLatitude(), queryLocation.getLongitude());
+                        }
+                    });
                 }
 
                 return true;
@@ -268,12 +300,6 @@ public class MapFragment extends Fragment {
         return null;
     }
 
-    private void showLocationInMap(GeoPoint location){
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
-        updateMapLocation(latitude, longitude);
-    }
-
     private boolean isWithinRange(GeoPoint location1, GeoPoint location2, int range){
         Location referenceLocation = new Location("referenceLocation");
         referenceLocation.setLatitude(location1.getLatitude());
@@ -284,9 +310,23 @@ public class MapFragment extends Fragment {
         candidateLocation.setLongitude(location2.getLongitude());
 
         double distance = referenceLocation.distanceTo(candidateLocation);
-        System.out.println("Distance in km: " + (distance / 1000));
+        System.out.println(distance / 1000);
+        Log.i("MapFragment", "Distance: " + distance);
         return (distance / 1000) <= range;
     }
 
+    private ArrayList<BoardingHouse> placesWithinRangeInMap(GeoPoint referenceLocation, ArrayList<BoardingHouse> boardingHouses, int range){
+        ArrayList<BoardingHouse> boardingHousesWithinRange = new ArrayList<>();
+        for(BoardingHouse boardingHouse : boardingHouses){
+            GeoPoint candidateLocation = boardingHouse.location;
+            boolean isNear = isWithinRange(referenceLocation, candidateLocation, range);
+            if(isNear){
+                boardingHousesWithinRange.add(boardingHouse);
+            }
+        }
+
+        Log.d("MapFragment", "Number of boarding houses hihi: " + boardingHouses.size());
+        return boardingHousesWithinRange;
+    }
 
 }

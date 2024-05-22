@@ -17,13 +17,19 @@
         android:theme="@style/Theme.RoomRadar"
         tools:targetApi="31">
         <activity
-            android:name=".RegisterTenantActivity"
-            android:screenOrientation="portrait"
+            android:name=".BoardingHouseDetails"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
-            android:screenOrientation="portrait"
+            android:name=".BoardingHouseListActivity"
             android:exported="false" />
+        <activity
+            android:name=".RegisterTenantActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -40,8 +46,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

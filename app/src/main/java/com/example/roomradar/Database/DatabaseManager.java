@@ -65,6 +65,11 @@ public class DatabaseManager {
 
     private static final int REQUEST_STORAGE_PERMISSION = 100;
 
+    public interface FetchBoardingHousesCallback {
+        void onComplete(ArrayList<BoardingHouse> boardingHouses);
+    }
+
+
     public static void registerUser(Activity activity, String email, String password, User user) {
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
@@ -106,6 +111,8 @@ public class DatabaseManager {
 
                         currentUserUID = userUID;
 
+                        //TO DO
+                        //QUERY USING UID IF LANDLORD OR TENANT
 
                         context.startActivity(intent);
                         activity.finish();
@@ -128,7 +135,7 @@ public class DatabaseManager {
     }
 
     private static void createFolderToCloud(Activity activity, String userUID) {
-        StorageReference folderRef = storage.getReference().child(userUID + "/");
+        StorageReference folderRef = storage.getReference().child(userUID);
 
         folderRef.putBytes(new byte[0])
                 .addOnSuccessListener(taskSnapshot -> {
@@ -136,20 +143,6 @@ public class DatabaseManager {
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(activity, "Failed to create folder: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
-
-        createFolderToCloudBoardingHouse(activity, userUID);
-    }
-
-    public static void createFolderToCloudBoardingHouse(Activity activity, String userUID){
-        StorageReference folderRef = storage.getReference().child("BoardingHouseStorage/").child(userUID);
-
-        folderRef.putBytes(new byte[0])
-                .addOnSuccessListener(taskSnapshot -> {
-                    Toast.makeText(activity, "Folder created successfully for boardinghouse", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(activity, "Failed to create folder boardinghouse" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 
@@ -182,6 +175,7 @@ public class DatabaseManager {
         return imagePaths;
     }
 
+
     public static void getImageUriFromStorage(Activity activity, String folderName, String fileName, ImageView imageView) {
         StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(folderName + "/" + fileName);
         storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -192,7 +186,7 @@ public class DatabaseManager {
 
                     Glide.with(imageView.getContext())
                             .load(downloadUri)
-                            .placeholder(R.drawable.profile_icon2)
+                            .placeholder(R.drawable.jeonghanstory)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(imageView);
 
@@ -205,7 +199,7 @@ public class DatabaseManager {
         });
     }
 
-    public static ArrayList<BoardingHouse> getAllBoardingHouses(Activity activity){
+    public static void getAllBoardingHouses(Activity activity, FetchBoardingHousesCallback callback){
         ArrayList<BoardingHouse> listBh = new ArrayList<>();
         boardingHousesCollection.get().addOnCompleteListener(task -> {
 
@@ -223,13 +217,8 @@ public class DatabaseManager {
                 Toast.makeText(activity, "Failed retrieving all boarding houses from database" , Toast.LENGTH_SHORT).show();
             }
 
+            callback.onComplete(listBh);
         });
-
-        return listBh;
-    }
-
-    public static void listBoardingHouse(BoardingHouse bh){
-        boardingHousesCollection.add(bh);
     }
 
 }
