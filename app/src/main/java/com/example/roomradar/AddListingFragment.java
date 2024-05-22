@@ -11,6 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,7 +36,18 @@ public class AddListingFragment extends Fragment {
 
     private int layoutType;
 
+    //for the first layout
     private Button nextListingPageButton;
+    private EditText propertyName;
+    private EditText province;
+    private EditText municipality;
+    private EditText barangay;
+    private EditText street;
+    private EditText numberOfBeds;
+    private EditText numberOfBathrooms;
+    private CheckBox wifi, kitchen, washer, parking, aircon, refrigerator;
+    private Switch allowPets;
+
 
 
     public AddListingFragment() {
@@ -93,6 +108,23 @@ public class AddListingFragment extends Fragment {
 
     private void initializeListing1Fragment(View view){
         nextListingPageButton = (Button) view.findViewById(R.id.nextListingPageButton);
+        propertyName = (EditText) view.findViewById(R.id.et_property_name);
+        province = (EditText) view.findViewById(R.id.et_state_province);
+        municipality = (EditText) view.findViewById(R.id.et_city_municipality);
+        barangay = (EditText) view.findViewById(R.id.et_barangay);
+        street = (EditText) view.findViewById(R.id.et_street);
+        numberOfBathrooms = (EditText) view.findViewById(R.id.et_bathrooms);
+        numberOfBeds = (EditText) view.findViewById(R.id.et_beds);
+
+        //checkboxes
+        wifi = (CheckBox) view.findViewById(R.id.cb_wifi);
+        kitchen = (CheckBox) view.findViewById(R.id.cb_kitchen);
+        washer = (CheckBox) view.findViewById(R.id.cb_washer);
+        parking = (CheckBox) view.findViewById(R.id.cb_parking);
+        aircon = (CheckBox) view.findViewById(R.id.cb_ac);
+        refrigerator = (CheckBox) view.findViewById(R.id.cb_refrigerator);
+
+        allowPets = (Switch) view.findViewById(R.id.sw_allow_pets);
 
         nextListingPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
