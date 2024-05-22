@@ -1,5 +1,12 @@
 package com.example.roomradar.Entities;
 
+import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import com.google.firebase.firestore.GeoPoint;
 
@@ -15,8 +22,9 @@ public class BoardingHouse {
     public int numberOfBathrooms;
     public HashMap<String, Boolean> amenities;
     public boolean allowPets;
-    public String mainPhoto;
-    public String bedroomPhotos;
+//    public Uri mainPhoto;
+//    public String bedroomPhotos;
+    public ArrayList<Uri> photos;
     public String description;
     public String rules;
     public float monthlyRate;
@@ -24,7 +32,7 @@ public class BoardingHouse {
 
     private BoardingHouse() {}
 
-    public static class Builder {
+    public static class Builder implements Parcelable {
         private BoardingHouse boardingHouse;
 
         public Builder() {
@@ -40,8 +48,8 @@ public class BoardingHouse {
             boardingHouse.numberOfBathrooms = 0;
             boardingHouse.amenities = new HashMap<>();
             boardingHouse.allowPets = false;
-            boardingHouse.mainPhoto = "defaultPath";
-            boardingHouse.bedroomPhotos = "defaultPath1";
+//            boardingHouse.mainPhoto = "defaultPath";
+//            boardingHouse.bedroomPhotos = "defaultPath1";
             boardingHouse.description = "default";
             boardingHouse.rules = "default";
             boardingHouse.monthlyRate = 0;
@@ -99,7 +107,15 @@ public class BoardingHouse {
             return this;
         }
 
-        public Builder setAmenities(HashMap<String, Boolean> amenities){
+        public Builder setAmenities(boolean hasWifi, boolean hasKitchen, boolean hasWasher, boolean hasParking, boolean hasAC, boolean hasRef){
+            HashMap<String, Boolean> amenities = new HashMap<>();
+            amenities.put("hasWifi", hasWifi);
+            amenities.put("hasKitchen", hasKitchen);
+            amenities.put("hasWasher", hasWasher);
+            amenities.put("hasParking", hasParking);
+            amenities.put("hasAC", hasAC);
+            amenities.put("hasRef", hasRef);
+
             boardingHouse.amenities = amenities;
             return this;
         }
@@ -109,13 +125,8 @@ public class BoardingHouse {
             return this;
         }
 
-        public Builder setMainPhoto(String mainPhoto){
-            boardingHouse.mainPhoto = mainPhoto;
-            return this;
-        }
-
-        public Builder setBedroomPhotos(String bedroomPhotos){
-            boardingHouse.bedroomPhotos = bedroomPhotos;
+        public Builder setPhotos(ArrayList<Uri> photos){
+            boardingHouse.photos = photos;
             return this;
         }
 
@@ -147,6 +158,16 @@ public class BoardingHouse {
 
         public BoardingHouse build() {
             return boardingHouse;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(@NonNull Parcel parcel, int i) {
+
         }
     }
 }

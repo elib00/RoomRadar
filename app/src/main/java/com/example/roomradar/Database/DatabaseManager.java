@@ -35,6 +35,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -243,6 +244,43 @@ public class DatabaseManager {
 
             callback.onComplete(listBh);
         });
+    }
+
+    private static void uploadImageToDatabase(Activity activity, String folderName, String fileName, Uri imageUri) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference folderRef = storage.getReference().child(folderName);
+        StorageReference imageRef = folderRef.child(fileName);
+
+        imageRef.putFile(imageUri)
+                .addOnSuccessListener(taskSnapshot -> {
+                    Toast.makeText(activity, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(activity, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    public static void listBoardingHouse(Activity activity, BoardingHouse house, Uri[] imagesUri){
+        boardingHousesCollection.add(house).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                if (task.isSuccessful()) {
+
+                    String boardingHouseID = task.getResult().getId();
+
+                    for (int i = 0; i < imagesUri.length; i++) {
+                        uploadImageToDatabase(activity, boardingHouseID + "/", String.format("picture%d", i + 1), imagesUri[i]);
+                    }
+
+
+                    Toast.makeText(activity, "User successfully registered", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(activity, "User successfully registered", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
 }
