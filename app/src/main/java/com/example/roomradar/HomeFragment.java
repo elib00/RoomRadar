@@ -68,16 +68,25 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    private void initializeFragment(View view){
-        homeSearchView = (SearchView) view.findViewById(R.id.homeSearchView);
-        homeSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+        private void initializeFragment(View view){
+            homeSearchView = (SearchView) view.findViewById(R.id.homeSearchView);
+//        homeSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean hasFocus) {
+//                if (hasFocus) {
+//                    // Search view has been clicked
+//                    Intent intent = new Intent(requireContext(), BoardingHouseListActivity.class);
+//                    startActivity(intent);
+//                }
+//            }
+//        }
+
+
+        homeSearchView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    // Search view has been clicked
-                    Intent intent = new Intent(requireContext(), BoardingHouseListActivity.class);
+            public void onClick(View view) {
+                Intent intent = new Intent(requireContext(), BoardingHouseListActivity.class);
                     startActivity(intent);
-                }
             }
         });
     }
