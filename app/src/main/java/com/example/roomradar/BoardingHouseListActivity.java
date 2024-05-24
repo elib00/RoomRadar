@@ -21,6 +21,8 @@ import java.util.List;
 public class BoardingHouseListActivity extends AppCompatActivity {
     ArrayList<BoardingHouse> boardingHouseArrayList; // list for the properties
     ArrayList<BoardingHouse> boardingHousesQueryList;
+    ArrayList<String> primaryKeysList;
+    ArrayList<String> primaryKeysQueryList;
     private SearchView boardingHouseSearchBar;
     private CustomAdapter adapter;
     private RecyclerView boardingHouseListContainer;
@@ -43,11 +45,14 @@ public class BoardingHouseListActivity extends AppCompatActivity {
 
         DatabaseManager.getAllBoardingHouses(this, new DatabaseManager.FetchBoardingHousesCallback() {
             @Override
-            public void onComplete(ArrayList<BoardingHouse> boardingHouses) {
+            public void onComplete(ArrayList<BoardingHouse> boardingHouses, ArrayList<String> primaryKeys) {
                 boardingHouseArrayList = boardingHouses;
                 boardingHousesQueryList = new ArrayList<>(boardingHouseArrayList); //copied list for the filter
 
-                adapter = new CustomAdapter(BoardingHouseListActivity.this, boardingHousesQueryList);
+                primaryKeysList = primaryKeys;
+                primaryKeysQueryList = new ArrayList<>(primaryKeysList);
+
+                adapter = new CustomAdapter(BoardingHouseListActivity.this, boardingHousesQueryList, primaryKeysQueryList);
                 boardingHouseListContainer.setAdapter(adapter);
 
                 adapter.notifyDataSetChanged();
@@ -71,30 +76,42 @@ public class BoardingHouseListActivity extends AppCompatActivity {
     }
 
     private void filterList(String text){
-        if(text.isEmpty()){
-            boardingHousesQueryList.addAll(boardingHouseArrayList);
-            return;
-        }
 
-        ArrayList<BoardingHouse> filteredList = new ArrayList<>();
-        for(BoardingHouse boardingHouse : boardingHouseArrayList){
-            //if the text on the search bar matches the name of the shop
-            if(boardingHouse.propertyName.toLowerCase().contains(text.toLowerCase())){
-                filteredList.add(boardingHouse);
+        ArrayList<BoardingHouse> filteredBoardingHouseList = new ArrayList<>();
+        ArrayList<String> filteredPrimaryKeysList = new ArrayList<>();
+
+        for(int i = 0; i < boardingHouseArrayList.size(); i++){
+            if(boardingHouseArrayList.get(i).propertyName.toLowerCase().contains(text.toLowerCase())){
+                filteredBoardingHouseList.add(boardingHouseArrayList.get(i));
+                filteredPrimaryKeysList.add(primaryKeysList.get(i));
             }
         }
+//
+//        for(BoardingHouse boardingHouse : boardingHouseArrayList){
+//            //if the text on the search bar matches the name of the shop
+//            if(boardingHouse.propertyName.toLowerCase().contains(text.toLowerCase())){
+//                filteredBoardingHouseList.add(boardingHouse);
+//                filteredPrimaryKeysList.add(primaryKeysList.get())
+//            }
+//        }
 
-        if(filteredList.isEmpty()){
-            Toast.makeText(BoardingHouseListActivity.this, "Vulcanizing shop not found.", Toast.LENGTH_SHORT).show();
+
+
+        if(filteredBoardingHouseList.isEmpty()){
+            Toast.makeText(BoardingHouseListActivity.this, "Boarding house not found.", Toast.LENGTH_SHORT).show();
         }else{
-            setFilteredList(filteredList);
+            setFilteredList(filteredBoardingHouseList, filteredPrimaryKeysList);
         }
     }
 
 
-    public void setFilteredList(ArrayList<BoardingHouse> newList){
+    public void setFilteredList(ArrayList<BoardingHouse> newList, ArrayList<String> newKeys){
         boardingHousesQueryList.clear();
         boardingHousesQueryList.addAll(newList);
+
+        primaryKeysQueryList.clear();
+        primaryKeysQueryList.addAll(newKeys);
+
         adapter.notifyDataSetChanged();
     }
 }

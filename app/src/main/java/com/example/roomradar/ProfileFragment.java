@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.roomradar.Database.DatabaseManager;
@@ -42,6 +43,8 @@ public class ProfileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private TextView username;
+    private TextView email;
 
 
     public ProfileFragment() {
@@ -81,11 +84,12 @@ public class ProfileFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView profileImage = view.findViewById(R.id.profileImage);
+        ImageView profileImage = view.findViewById(R.id.profileImage);
 
         DatabaseManager.syncImageViewFromDatabase(requireActivity(), DatabaseManager.currentUserUID, "profilePicture", profileImage);
 
         FloatingActionButton uploadProfilePicture = view.findViewById(R.id.uploadProfilePicture);
+
         ActivityResultLauncher<Intent> resultLauncher;
 
         resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -107,7 +111,17 @@ public class ProfileFragment extends Fragment {
             resultLauncher.launch(intent);
         });
 
+
+        initializeFragment(view);
         return view;
+    }
+
+    private void initializeFragment(View view){
+        username = (TextView) view.findViewById(R.id.profileUsernameTextView);
+        email = (TextView) view.findViewById(R.id.profileEmailTextView);
+//
+        username.setText(DatabaseManager.currentUserLoggedIn.firstName);
+        email.setText(DatabaseManager.currentUserEmail);
     }
 
 

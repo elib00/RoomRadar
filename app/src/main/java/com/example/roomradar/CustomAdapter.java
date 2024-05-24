@@ -1,5 +1,6 @@
 package com.example.roomradar;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -12,21 +13,26 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.roomradar.Database.DatabaseManager;
 import com.example.roomradar.Entities.BoardingHouse;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder>{
     Context context;
     List<BoardingHouse> boardingHouses;
+    ArrayList<String> primaryKeys;
 
-    public CustomAdapter(Context context, List<BoardingHouse> boardingHouses){
+    public CustomAdapter(Context context, List<BoardingHouse> boardingHouses, ArrayList<String> primaryKeys){
         this.context = context;
         this.boardingHouses = boardingHouses;
+        this.primaryKeys = primaryKeys;
     }
 
 
@@ -49,6 +55,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         addressString += addressHashMap.get("city") + ", ";
         addressString += addressHashMap.get("province");
 
+        DatabaseManager.syncImageViewFromDatabase((Activity) context, primaryKeys.get(position), "picture1", holder.imageHolder);
 
         holder.propertyAddress.setText(addressString);
         holder.propertyPrice.setText(String.format("%f / month", boardingHouse.monthlyRate));

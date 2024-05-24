@@ -264,7 +264,7 @@ public class MapFragment extends Fragment {
                 }else{
                     DatabaseManager.getAllBoardingHouses(requireActivity(), new DatabaseManager.FetchBoardingHousesCallback() {
                         @Override
-                        public void onComplete(ArrayList<BoardingHouse> boardingHouses) {
+                        public void onComplete(ArrayList<BoardingHouse> boardingHouses, ArrayList<String> primaryKeys) {
                             ArrayList<BoardingHouse> boardingHousesInRange = placesWithinRangeInMap(queryLocation, boardingHouses, 5);
                             updateMapLocation(boardingHousesInRange, 1, queryLocation.getLatitude(), queryLocation.getLongitude());
                         }

@@ -63,11 +63,13 @@ public class DatabaseManager {
     public static CollectionReference boardingHousesCollection = database.collection("boardinghouses");
     public static CollectionReference userProfileCollection = database.collection("userprofile");
     public static String currentUserUID;
+    public static String currentUserEmail;
+    public static User currentUserLoggedIn;
 
     private static final int REQUEST_STORAGE_PERMISSION = 100;
 
     public interface FetchBoardingHousesCallback {
-        void onComplete(ArrayList<BoardingHouse> boardingHouses);
+        void onComplete(ArrayList<BoardingHouse> boardingHouses, ArrayList<String> primaryKeys);
     }
 
 
@@ -79,7 +81,6 @@ public class DatabaseManager {
                         if (task.isSuccessful()) {
 
                             String userUID = Objects.requireNonNull(task.getResult().getUser()).getUid();
-
                             Context context = activity.getBaseContext();
                             userProfileCollection.document(userUID).set(user);
 
@@ -109,8 +110,31 @@ public class DatabaseManager {
                         Toast.makeText(activity, "Login Successful. ", Toast.LENGTH_SHORT).show();
 
                         String userUID = Objects.requireNonNull(authResult.getUser()).getUid();
+                        currentUserEmail = Objects.requireNonNull(authResult.getUser()).getEmail();
 
-                        currentUserUID = userUID;
+                        userProfileCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                                if (task.isSuccessful()) {
+
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        if(document.getId().equals(userUID)){
+                                            currentUserLoggedIn = document.toObject(User.class);
+                                            System.out.println(currentUserLoggedIn.firstName);
+                                            break;
+                                        }
+                                    }
+
+//                                    Toast.makeText(activity, "Successful retrieving all boarding houses from database", Toast.LENGTH_SHORT).show();
+
+                                } else {
+//                                    Toast.makeText(activity, "Failed retrieving all boarding houses from database" , Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        });
+
 
                         //TO DO
                         //QUERY USING UID IF LANDLORD OR TENANT
@@ -226,23 +250,26 @@ public class DatabaseManager {
 
     public static void getAllBoardingHouses(Activity activity, FetchBoardingHousesCallback callback){
         ArrayList<BoardingHouse> listBh = new ArrayList<>();
+        ArrayList<String> primaryKeys = new ArrayList<>();
         boardingHousesCollection.get().addOnCompleteListener(task -> {
 
             if (task.isSuccessful()) {
 
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     BoardingHouse bh = document.toObject(BoardingHouse.class);
-                    System.out.println("Ang bh kay " + bh.propertyName);
+                    String bhID = document.getId();
                     listBh.add(bh);
+                    primaryKeys.add(bhID);
+
                 }
 
-//                Toast.makeText(activity, "Successful retrieving all boarding houses from database", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "Successful retrieving all boarding houses from database", Toast.LENGTH_SHORT).show();
 
             } else {
                 Toast.makeText(activity, "Failed retrieving all boarding houses from database" , Toast.LENGTH_SHORT).show();
             }
 
-            callback.onComplete(listBh);
+            callback.onComplete(listBh, primaryKeys);
         });
     }
 
