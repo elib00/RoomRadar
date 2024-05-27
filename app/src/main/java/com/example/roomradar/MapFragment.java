@@ -189,9 +189,9 @@ public class MapFragment extends Fragment {
 //                                    .fillColor(Color.parseColor("#30ff0000")); // Transparent red color with 30% opacity\\
 
                             //to ensure that the circles do not lay on top of each other
-                            if (circle != null) {
-                                circle.remove();
-                            }
+//                            if (circle != null) {
+//                                circle.remove();
+//                            }
 
 //                            circle = googleMap.addCircle(circleOptions);
 
@@ -223,7 +223,7 @@ public class MapFragment extends Fragment {
             @Override
             public void onMapReady(@NonNull GoogleMap googleMap) {
                 googleMap.clear();
-                LatLng newLocation = new LatLng(latitude, longitude);
+//                LatLng newLocation = new LatLng(latitude, longitude);
 
                 for(BoardingHouse boardingHouse : boardingHouses){
                     GeoPoint boardingHouseLocation = boardingHouse.location;
@@ -248,7 +248,7 @@ public class MapFragment extends Fragment {
 
                 googleMap.addCircle(circleOptions);
                 googleMap.addMarker(currentLocationMarker);
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newLocation, 15f));
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f));
             }
         });
     }
@@ -285,7 +285,7 @@ public class MapFragment extends Fragment {
 
     private GeoPoint geoLocate(String locationString) {
         Geocoder geocoder = new Geocoder(requireContext());
-        List<Address> place = new ArrayList();
+        List<Address> place = new ArrayList<>();
 
         try{
             place = geocoder.getFromLocationName(locationString, 1);

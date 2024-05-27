@@ -1,16 +1,20 @@
 package com.example.roomradar;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -20,14 +24,32 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.roomradar.Database.DatabaseManager;
 import com.example.roomradar.Entities.BoardingHouse;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.GeoPoint;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
-import java.util.HashMap;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,6 +74,8 @@ public class AddListingFragment extends Fragment {
 
     //for the first layout
     private Button nextListingPageButton;
+    private Button continueToChooseLocationButton;
+    private Button listBoardingHouseButton;
     private EditText propertyName;
     private EditText province;
     private EditText municipality;
@@ -62,9 +86,10 @@ public class AddListingFragment extends Fragment {
     private CheckBox wifi, kitchen, washer, parking, aircon, refrigerator;
     private EditText editDescription;
     private EditText price;
-    private Button createListingButton;
     private Switch allowPets;
-//    HashMap<String, String> tempValues;
+
+    private LatLng lastClicked;
+    private SearchView chooseLocationSearch;
 
     private BoardingHouse.Builder builder;
 
@@ -72,6 +97,9 @@ public class AddListingFragment extends Fragment {
     private ImageView[] photoContainers;
 
     private Uri[] imageURIList;
+
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private SupportMapFragment supportMapFragment;
 
     public AddListingFragment() {
         // Required empty public constructor
@@ -120,13 +148,20 @@ public class AddListingFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view;
-        if (layoutType == 2) {
-            view = inflater.inflate(R.layout.fragment_createlisting2, container, false);
-            initializeListing2Fragment(view);
-        } else {
-            view = inflater.inflate(R.layout.fragment_createlisting1, container, false);
-            initializeListing1Fragment(view);
+        View view = null;
+
+        switch(layoutType){
+            case 1:
+                view = inflater.inflate(R.layout.fragment_createlisting1, container, false);
+                initializeListing1Fragment(view);
+                break;
+            case 2:
+                view = inflater.inflate(R.layout.fragment_createlisting2, container, false);
+                initializeListing2Fragment(view);
+                break;
+            case 3:
+                view = inflater.inflate(R.layout.fragment_choose_location, container, false);
+                initializeListing3Fragment(view);
         }
 
         return view;
@@ -152,7 +187,6 @@ public class AddListingFragment extends Fragment {
         parking = (CheckBox) view.findViewById(R.id.cb_parking);
         aircon = (CheckBox) view.findViewById(R.id.cb_ac);
         refrigerator = (CheckBox) view.findViewById(R.id.cb_refrigerator);
-
         allowPets = (Switch) view.findViewById(R.id.sw_allow_pets);
 
         nextListingPageButton.setOnClickListener(new View.OnClickListener() {
@@ -165,7 +199,6 @@ public class AddListingFragment extends Fragment {
                 builder.setNumberOfBeds(Integer.parseInt(numberOfBeds.getText().toString()));
                 builder.setAmenities(wifi.isChecked(), kitchen.isChecked(), washer.isChecked(), parking.isChecked(), aircon.isChecked(), refrigerator.isChecked());
                 builder.setAllowPets(allowPets.isChecked());
-
                 replaceFragment(builder);
             }
         });
@@ -176,7 +209,7 @@ public class AddListingFragment extends Fragment {
         photoContainers = new ImageView[]{view.findViewById(R.id.imageView1), view.findViewById(R.id.imageView2), view.findViewById(R.id.imageView3)};
         imageURIList = new Uri[3];
 
-        createListingButton = view.findViewById(R.id.createListingButton);
+        continueToChooseLocationButton = view.findViewById(R.id.continueToChooseLocation);
         editDescription = view.findViewById(R.id.edit_description);
         price = view.findViewById(R.id.edit_price);
 
@@ -254,27 +287,190 @@ public class AddListingFragment extends Fragment {
         });
 
 
-        createListingButton.setOnClickListener(new View.OnClickListener() {
-
+        continueToChooseLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 builder.setDescription(editDescription.getText().toString());
                 builder.setMonthlyRate(Float.parseFloat(price.getText().toString()));
+                replaceFragment(builder);
 
-                BoardingHouse boardingHouse = builder.build();
-                DatabaseManager.listBoardingHouse(requireActivity(), boardingHouse, imageURIList);
+//                BoardingHouse boardingHouse = builder.build();
+//                DatabaseManager.listBoardingHouse(requireActivity(), boardingHouse, imageURIList);
 //                Toast.makeText(requireContext(), "Listing success", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
+    private void initializeListing3Fragment(View view){
+        listBoardingHouseButton = (Button) view.findViewById(R.id.listBoardingHouseButton);
+        supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.chooseLocationContainer);
+        fusedLocationProviderClient = (FusedLocationProviderClient) LocationServices.getFusedLocationProviderClient(requireActivity());
+
+        Dexter.withContext(requireContext()).withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+                        getCurrentLocation();
+                    }
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+                        Toast.makeText(requireContext(), "Permission denied. Please turn on your location.", Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                        permissionToken.continuePermissionRequest();
+                    }
+                }).check();
+
+        getLastClickedLocation();
+        setupMapsSearch(view);
+
+        listBoardingHouseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+    }
+
     private void replaceFragment(BoardingHouse.Builder builder){
-        AddListingFragment newFragment = AddListingFragment.newInstance(2, builder);
-        getParentFragmentManager().beginTransaction().replace(R.id.fragmentsContainer, newFragment).commit();
+        AddListingFragment newFragment;
+        switch(layoutType){
+            case 1:
+                newFragment = AddListingFragment.newInstance(2, builder);
+                getParentFragmentManager().beginTransaction().replace(R.id.fragmentsContainer, newFragment).commit();
+                break;
+            case 2:
+                newFragment = AddListingFragment.newInstance(3, builder);
+                getParentFragmentManager().beginTransaction().replace(R.id.fragmentsContainer, newFragment).commit();
+        }
     }
 
     private void setURI(Uri uri, int index){
         imageURIList[index]= uri;
+    }
+
+    private void getCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        Task<Location> task = fusedLocationProviderClient.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                    @Override
+                    public void onMapReady(@NonNull GoogleMap googleMap) {
+                        googleMap.clear();
+                        if(location != null){
+                            LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                            MarkerOptions markerOptions = new MarkerOptions().position(currentLocation).title("Current location");
+
+                            googleMap.addMarker(markerOptions);
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f));
+                        }else{
+                            Toast.makeText(requireContext(), "Permission denied.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+
+
+    }
+
+    private void getLastClickedLocation(){
+        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(@NonNull GoogleMap googleMap) {
+                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(@NonNull LatLng latLng) {
+                        googleMap.clear();
+                        lastClicked = latLng;
+                        System.out.println(lastClicked.latitude);
+                        System.out.println(lastClicked.longitude);
+                        googleMap.addMarker(new MarkerOptions().position(latLng).title("Potential location"));
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f));
+                    }
+                });
+            }
+        });
+    }
+
+    public void updateMapLocation(GeoPoint currentGeoPoint){
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //               a                           int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(@NonNull GoogleMap googleMap) {
+                googleMap.clear();
+                LatLng currentLocation = new LatLng(currentGeoPoint.getLatitude(), currentGeoPoint.getLongitude());
+                MarkerOptions currentLocationMarker = new MarkerOptions().position(currentLocation).title("Current location");
+                googleMap.addMarker(currentLocationMarker);
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f));
+            }
+        });
+    }
+
+    private void setupMapsSearch(View view){
+        chooseLocationSearch = (SearchView) view.findViewById(R.id.chooseLocationSearch);
+        chooseLocationSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                GeoPoint queryLocation = geoLocate(query);
+                if(queryLocation == null){
+                    Toast.makeText(requireContext(), "Location not found", Toast.LENGTH_SHORT).show();
+                }else{
+                    updateMapLocation(queryLocation);
+                }
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                return true;
+            }
+        });
+    }
+
+    private GeoPoint geoLocate(String locationString) {
+        Geocoder geocoder = new Geocoder(requireContext());
+        List<Address> place = new ArrayList<>();
+
+        try{
+            place = geocoder.getFromLocationName(locationString, 1);
+        }catch (IOException exception){
+            System.out.println(exception.getMessage());
+        }
+
+        if(!place.isEmpty()){
+            Address address = place.get(0);
+            return new GeoPoint(address.getLatitude(), address.getLongitude());
+        }
+
+        return null;
     }
 }

@@ -119,12 +119,12 @@
                 android:inputType="numberDecimal" />
 
             <Button
-                android:id="@+id/createListingButton"
+                android:id="@+id/continueToChooseLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:backgroundTint="#0B1455"
-                android:text="Submit"
+                android:text="Continue"
                 android:textColor="#ffffff" />
 
         </LinearLayout>
