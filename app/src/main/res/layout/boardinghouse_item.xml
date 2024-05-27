@@ -13,11 +13,20 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <ImageView
-            android:id="@+id/propertyImageView"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            app:srcCompat="@drawable/logo_with_text" />
+            android:layout_height="150dp"
+            app:cardCornerRadius="16dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/propertyImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/logo_with_text" />
+
+
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 
     <LinearLayout
@@ -32,18 +41,22 @@
             android:id="@+id/propertyNameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_margin="5dp"
+            android:text="TextView"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/propertyAddressTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="TextView" />
 
         <TextView
             android:id="@+id/propertyPriceTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="TextView" />
     </LinearLayout>
 </LinearLayout>

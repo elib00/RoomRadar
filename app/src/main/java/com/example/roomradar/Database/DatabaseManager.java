@@ -49,6 +49,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -69,7 +70,7 @@ public class DatabaseManager {
     private static final int REQUEST_STORAGE_PERMISSION = 100;
 
     public interface FetchBoardingHousesCallback {
-        void onComplete(ArrayList<BoardingHouse> boardingHouses, ArrayList<String> primaryKeys);
+        void onComplete(ArrayList<BoardingHouse> boardingHouses, HashMap<BoardingHouse, String> map);
     }
 
 
@@ -226,16 +227,16 @@ public class DatabaseManager {
 
 
     public static void syncImageViewFromDatabase(Activity activity, String folderName, String fileName, ImageView imageView) {
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(folderName + "/" + fileName);
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(folderName).child(fileName);
         storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
-            public void onComplete(Task<Uri> task) {
+            public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
 
                     Glide.with(imageView.getContext())
                             .load(downloadUri)
-                            .placeholder(R.drawable.jeonghanstory)
+                            .placeholder(R.drawable.logo_only)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(imageView);
 
@@ -250,7 +251,7 @@ public class DatabaseManager {
 
     public static void getAllBoardingHouses(Activity activity, FetchBoardingHousesCallback callback){
         ArrayList<BoardingHouse> listBh = new ArrayList<>();
-        ArrayList<String> primaryKeys = new ArrayList<>();
+        HashMap<BoardingHouse, String> map = new HashMap<>();
         boardingHousesCollection.get().addOnCompleteListener(task -> {
 
             if (task.isSuccessful()) {
@@ -259,8 +260,9 @@ public class DatabaseManager {
                     BoardingHouse bh = document.toObject(BoardingHouse.class);
                     String bhID = document.getId();
                     listBh.add(bh);
-                    primaryKeys.add(bhID);
-
+                    map.put(bh, bhID);
+                    System.out.println(bhID);
+//                    System.out.println(bhID);
                 }
 
                 Toast.makeText(activity, "Successful retrieving all boarding houses from database", Toast.LENGTH_SHORT).show();
@@ -269,7 +271,7 @@ public class DatabaseManager {
                 Toast.makeText(activity, "Failed retrieving all boarding houses from database" , Toast.LENGTH_SHORT).show();
             }
 
-            callback.onComplete(listBh, primaryKeys);
+            callback.onComplete(listBh, map);
         });
     }
 
@@ -301,9 +303,9 @@ public class DatabaseManager {
                     }
 
 
-                    Toast.makeText(activity, "User successfully registered", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(activity, "User successfully registered", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(activity, "User successfully registered", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(activity, "User successfully registered", Toast.LENGTH_SHORT).show();
                 }
             }
         });

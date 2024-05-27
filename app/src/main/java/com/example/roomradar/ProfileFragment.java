@@ -120,8 +120,8 @@ public class ProfileFragment extends Fragment {
         username = (TextView) view.findViewById(R.id.profileUsernameTextView);
         email = (TextView) view.findViewById(R.id.profileEmailTextView);
 //
-        username.setText(DatabaseManager.currentUserLoggedIn.firstName);
-        email.setText(DatabaseManager.currentUserEmail);
+//        username.setText(DatabaseManager.currentUserLoggedIn.firstName);
+//        email.setText(DatabaseManager.currentUserEmail);
     }
 
 

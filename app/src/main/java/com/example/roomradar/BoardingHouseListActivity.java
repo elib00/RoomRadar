@@ -6,9 +6,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,13 +13,14 @@ import com.example.roomradar.Database.DatabaseManager;
 import com.example.roomradar.Entities.BoardingHouse;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class BoardingHouseListActivity extends AppCompatActivity {
     ArrayList<BoardingHouse> boardingHouseArrayList; // list for the properties
     ArrayList<BoardingHouse> boardingHousesQueryList;
-    ArrayList<String> primaryKeysList;
-    ArrayList<String> primaryKeysQueryList;
+    HashMap<BoardingHouse, String> boardingHouseHashMap;
+//    ArrayList<String> primaryKeysList;
+//    ArrayList<String> primaryKeysQueryList;
     private SearchView boardingHouseSearchBar;
     private CustomAdapter adapter;
     private RecyclerView boardingHouseListContainer;
@@ -45,14 +43,12 @@ public class BoardingHouseListActivity extends AppCompatActivity {
 
         DatabaseManager.getAllBoardingHouses(this, new DatabaseManager.FetchBoardingHousesCallback() {
             @Override
-            public void onComplete(ArrayList<BoardingHouse> boardingHouses, ArrayList<String> primaryKeys) {
+            public void onComplete(ArrayList<BoardingHouse> boardingHouses, HashMap<BoardingHouse, String> map) {
                 boardingHouseArrayList = boardingHouses;
                 boardingHousesQueryList = new ArrayList<>(boardingHouseArrayList); //copied list for the filter
+                boardingHouseHashMap = map;
 
-                primaryKeysList = primaryKeys;
-                primaryKeysQueryList = new ArrayList<>(primaryKeysList);
-
-                adapter = new CustomAdapter(BoardingHouseListActivity.this, boardingHousesQueryList, primaryKeysQueryList);
+                adapter = new CustomAdapter(BoardingHouseListActivity.this, boardingHousesQueryList, boardingHouseHashMap);
                 boardingHouseListContainer.setAdapter(adapter);
 
                 adapter.notifyDataSetChanged();
@@ -76,14 +72,11 @@ public class BoardingHouseListActivity extends AppCompatActivity {
     }
 
     private void filterList(String text){
-
         ArrayList<BoardingHouse> filteredBoardingHouseList = new ArrayList<>();
-        ArrayList<String> filteredPrimaryKeysList = new ArrayList<>();
 
         for(int i = 0; i < boardingHouseArrayList.size(); i++){
             if(boardingHouseArrayList.get(i).propertyName.toLowerCase().contains(text.toLowerCase())){
                 filteredBoardingHouseList.add(boardingHouseArrayList.get(i));
-                filteredPrimaryKeysList.add(primaryKeysList.get(i));
             }
         }
 //
@@ -100,18 +93,14 @@ public class BoardingHouseListActivity extends AppCompatActivity {
         if(filteredBoardingHouseList.isEmpty()){
             Toast.makeText(BoardingHouseListActivity.this, "Boarding house not found.", Toast.LENGTH_SHORT).show();
         }else{
-            setFilteredList(filteredBoardingHouseList, filteredPrimaryKeysList);
+            setFilteredList(filteredBoardingHouseList);
         }
     }
 
 
-    public void setFilteredList(ArrayList<BoardingHouse> newList, ArrayList<String> newKeys){
+    public void setFilteredList(ArrayList<BoardingHouse> newList){
         boardingHousesQueryList.clear();
         boardingHousesQueryList.addAll(newList);
-
-        primaryKeysQueryList.clear();
-        primaryKeysQueryList.addAll(newKeys);
-
         adapter.notifyDataSetChanged();
     }
 }

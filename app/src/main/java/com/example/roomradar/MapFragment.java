@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -264,7 +265,7 @@ public class MapFragment extends Fragment {
                 }else{
                     DatabaseManager.getAllBoardingHouses(requireActivity(), new DatabaseManager.FetchBoardingHousesCallback() {
                         @Override
-                        public void onComplete(ArrayList<BoardingHouse> boardingHouses, ArrayList<String> primaryKeys) {
+                        public void onComplete(ArrayList<BoardingHouse> boardingHouses, HashMap<BoardingHouse, String> map) {
                             ArrayList<BoardingHouse> boardingHousesInRange = placesWithinRangeInMap(queryLocation, boardingHouses, 5);
                             updateMapLocation(boardingHousesInRange, 1, queryLocation.getLatitude(), queryLocation.getLongitude());
                         }

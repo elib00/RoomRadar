@@ -39,7 +39,7 @@
             android:background="@drawable/bg_search_view"
             android:elevation="5dp"
             android:iconifiedByDefault="false"
-            android:queryHint="Search location" />
+            android:queryHint="Search for a place" />
     </LinearLayout>
 
     <!-- TextView for Featured Rooms -->
