@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="10sp"
     android:background="#FFFFFF"
+    android:orientation="vertical"
     tools:context=".BoardingHouseDetails">
 
     <LinearLayout
@@ -38,10 +39,280 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"></LinearLayout>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/picture1"
+                        android:layout_width="410dp"
+                        android:layout_height="250dp"
+                        app:srcCompat="@drawable/logo_only" />
+
+                    <ImageView
+                        android:id="@+id/picture2"
+                        android:layout_width="410dp"
+                        android:layout_height="250dp"
+                        app:srcCompat="@drawable/logo_only" />
+
+                    <ImageView
+                        android:id="@+id/picture3"
+                        android:layout_width="410dp"
+                        android:layout_height="250dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/logo_only" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:orientation="horizontal"
+                android:paddingTop="10sp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/bhName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:paddingLeft="30sp"
+                        android:text="Rizwill Apartelle"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:id="@+id/bhAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:paddingLeft="30sp"
+                        android:text="Tres De Abril, Labangon"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="75dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_gravity="center|center_horizontal"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="P 3500"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center|top"
+                        android:text="per month"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="82dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="10dp"
+                android:padding="100dp"
+                android:paddingTop="30dp"
+                app:cardBackgroundColor="@color/room_radar_light_blue"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="10sp">
+
+                    <ImageView
+                        android:id="@+id/imageView6"
+                        android:layout_width="62dp"
+                        android:layout_height="59dp"
+                        app:srcCompat="@drawable/profile_icon2" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="10sp">
+
+                        <TextView
+                            android:id="@+id/owner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Mingyu Kim"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:id="@+id/number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="09271935386"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="7sp"
+                android:gravity="center|center_vertical"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="160dp"
+                    android:layout_height="43dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="11sp"
+                    android:layout_marginRight="11sp"
+                    android:padding="100dp"
+                    android:paddingTop="30dp"
+                    app:cardBackgroundColor="#00BFBFBF"
+                    app:cardCornerRadius="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/numBeds"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 Beds" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="160dp"
+                    android:layout_height="43dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="11sp"
+                    android:layout_marginRight="11sp"
+                    android:padding="100dp"
+                    android:paddingTop="30dp"
+                    app:cardBackgroundColor="#00BFBFBF"
+                    app:cardCornerRadius="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/numBathroom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 Bathrooms" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/DescriptionTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35sp"
+                android:layout_marginTop="15sp"
+                android:layout_marginRight="35sp"
+                android:text="Description"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35sp"
+                android:layout_marginRight="35sp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/rulesTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35sp"
+                android:layout_marginTop="15sp"
+                android:layout_marginRight="35sp"
+                android:text="Rules"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/rules"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35sp"
+                android:layout_marginRight="35sp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/ammenitiesTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35sp"
+                android:layout_marginTop="15sp"
+                android:layout_marginRight="35sp"
+                android:text="Ammenities"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ammenities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35sp"
+                android:layout_marginRight="35sp"
+                android:text="TextView" />
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
 
 </LinearLayout>
