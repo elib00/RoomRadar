@@ -18,6 +18,8 @@ firebaseDatabase = "21.0.0"
 firebaseStorage = "21.0.0"
 glide = "5.0.0-rc01"
 firebaseVertexai = "16.0.0-beta01"
+circleimageview = "3.1.0"
+
 
 
 [libraries]
@@ -37,6 +39,7 @@ firebase-database = { group = "com.google.firebase", name = "firebase-database",
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 firebase-vertexai = { group = "com.google.firebase", name = "firebase-vertexai", version.ref = "firebaseVertexai" }
+circleimageview = { group = "de.hdodenhof", name = "circleimageview", version.ref = "circleimageview" }
 
 
 [plugins]

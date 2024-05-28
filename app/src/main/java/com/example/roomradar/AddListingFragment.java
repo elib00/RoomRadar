@@ -70,8 +70,9 @@ public class AddListingFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private static final String ARGUMENT_LAYOUT_TYPE1 = "layout_type";
-    private static final String ARGUMENT_LAYOUT_TYPE2 = "object_builder";
+    private static final String ARGUMENT_LAYOUT_TYPE = "layout_type";
+    private static final String ARGUMENT_BUILDER = "object_builder";
+    private static final String ARGUMENT_URI_LIST = "uri_list";
 
     private int layoutType;
 
@@ -99,7 +100,7 @@ public class AddListingFragment extends Fragment {
     private Button[] getPhotoButtons;
     private ImageView[] photoContainers;
 
-    private Uri[] imageURIList;
+    private ArrayList<Uri> imageURIList;
 
     private FusedLocationProviderClient fusedLocationProviderClient;
     private SupportMapFragment supportMapFragment;
@@ -129,8 +130,18 @@ public class AddListingFragment extends Fragment {
     public static AddListingFragment newInstance(int layoutType, BoardingHouse.Builder builder) {
         AddListingFragment fragment = new AddListingFragment();
         Bundle args = new Bundle();
-        args.putInt(ARGUMENT_LAYOUT_TYPE1, layoutType);
-        args.putParcelable(ARGUMENT_LAYOUT_TYPE2, (Parcelable) builder);
+        args.putInt(ARGUMENT_LAYOUT_TYPE, layoutType);
+        args.putParcelable(ARGUMENT_BUILDER, (Parcelable) builder);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static AddListingFragment newInstance(int layoutType, BoardingHouse.Builder builder, ArrayList<Uri> uriList) {
+        AddListingFragment fragment = new AddListingFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARGUMENT_LAYOUT_TYPE, layoutType);
+        args.putParcelable(ARGUMENT_BUILDER, builder);
+        args.putParcelableArrayList(ARGUMENT_URI_LIST, uriList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -143,8 +154,9 @@ public class AddListingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            layoutType = getArguments().getInt(ARGUMENT_LAYOUT_TYPE1);
-            builder = getArguments().getParcelable(ARGUMENT_LAYOUT_TYPE2);
+            layoutType = getArguments().getInt(ARGUMENT_LAYOUT_TYPE);
+            builder = getArguments().getParcelable(ARGUMENT_BUILDER);
+            imageURIList = getArguments().getParcelableArrayList(ARGUMENT_URI_LIST);
         }else{
             layoutType = 1;
         }
@@ -207,15 +219,16 @@ public class AddListingFragment extends Fragment {
                 builder.setNumberOfBeds(Integer.parseInt(numberOfBeds.getText().toString()));
                 builder.setAmenities(wifi.isChecked(), kitchen.isChecked(), washer.isChecked(), parking.isChecked(), aircon.isChecked(), refrigerator.isChecked());
                 builder.setAllowPets(allowPets.isChecked());
-                replaceFragment(builder);
+                replaceFragment(builder, imageURIList);
             }
         });
     }
 
     private void initializeListing2Fragment(View view){
+        ArrayList<Uri> uriListTemp = new ArrayList<>();
         getPhotoButtons = new Button[]{view.findViewById(R.id.btn_choose_photo1), view.findViewById(R.id.btn_choose_photo2), view.findViewById(R.id.btn_choose_photo3)};
         photoContainers = new ImageView[]{view.findViewById(R.id.imageView1), view.findViewById(R.id.imageView2), view.findViewById(R.id.imageView3)};
-        imageURIList = new Uri[3];
+//        imageURIList = new Uri[3];
 
         continueToChooseLocationButton = view.findViewById(R.id.continueToChooseLocation);
         editDescription = view.findViewById(R.id.edit_description);
@@ -228,8 +241,8 @@ public class AddListingFragment extends Fragment {
                     assert result.getData() != null;
 
                     Uri imageUri = result.getData().getData();
+                    uriListTemp.add(imageUri);
                     photoContainers[0].setImageURI(imageUri);
-                    setURI(imageUri, 0);
                 }
             } catch (Exception e){
                 e.printStackTrace();
@@ -243,9 +256,8 @@ public class AddListingFragment extends Fragment {
                     assert result.getData() != null;
 
                     Uri imageUri = result.getData().getData();
-                    setURI(imageUri, 1);
+                    uriListTemp.add(imageUri);
                     photoContainers[1].setImageURI(imageUri);
-
                 }
             } catch (Exception e){
                 e.printStackTrace();
@@ -259,7 +271,7 @@ public class AddListingFragment extends Fragment {
                     assert result.getData() != null;
 
                     Uri imageUri = result.getData().getData();
-                    setURI(imageUri, 2);
+                    uriListTemp.add(imageUri);
                     photoContainers[2].setImageURI(imageUri);
                 }
             } catch (Exception e){
@@ -299,11 +311,9 @@ public class AddListingFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 builder.setDescription(editDescription.getText().toString());
+                System.out.println("the size of the uriLisTemp is: " + uriListTemp.size());
                 builder.setMonthlyRate(Float.parseFloat(price.getText().toString()));
-                replaceFragment(builder);
-//                BoardingHouse boardingHouse = builder.build();
-//                DatabaseManager.listBoardingHouse(requireActivity(), boardingHouse, imageURIList);
-//                Toast.makeText(requireContext(), "Listing success", Toast.LENGTH_SHORT).show();
+                replaceFragment(builder, uriListTemp);
             }
         });
 
@@ -340,12 +350,12 @@ public class AddListingFragment extends Fragment {
                 BoardingHouse boardingHouse = builder.build();
                 DatabaseManager.listBoardingHouse(requireActivity(), boardingHouse, imageURIList);
                 Toast.makeText(requireContext(), "Listing success", Toast.LENGTH_SHORT).show();
-                replaceFragment(builder);
+                replaceFragment(builder, imageURIList);
             }
         });
     }
 
-    private void replaceFragment(BoardingHouse.Builder builder){
+    private void replaceFragment(BoardingHouse.Builder builder, ArrayList<Uri> uriList){
         AddListingFragment newFragment;
         switch(layoutType){
             case 1:
@@ -353,7 +363,7 @@ public class AddListingFragment extends Fragment {
                 getParentFragmentManager().beginTransaction().replace(R.id.fragmentsContainer, newFragment).commit();
                 break;
             case 2:
-                newFragment = AddListingFragment.newInstance(3, builder);
+                newFragment = AddListingFragment.newInstance(3, builder, uriList);
                 getParentFragmentManager().beginTransaction().replace(R.id.fragmentsContainer, newFragment).commit();
                 break;
             case 3:
@@ -361,10 +371,6 @@ public class AddListingFragment extends Fragment {
                 getParentFragmentManager().beginTransaction().replace(R.id.fragmentsContainer, newFragment).commit();
                 break;
         }
-    }
-
-    private void setURI(Uri uri, int index){
-        imageURIList[index]= uri;
     }
 
     private void getCurrentLocation() {

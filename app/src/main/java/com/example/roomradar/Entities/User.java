@@ -5,6 +5,7 @@ public class User {
     public String lastName;
     public boolean isLandlord;
 
+    public User() {};
     public User(String firstName, String lastName, Boolean isLandlord){
         this.firstName = firstName;
         this.lastName = lastName;

@@ -10,19 +10,27 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="216dp">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
-        <ImageView
-            android:id="@+id/profileImage"
-            android:layout_width="187dp"
-            android:layout_height="162dp"
-            android:layout_marginTop="40dp"
-            app:circularflow_radiusInDP="600dp"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/profileImageContainer"
+            android:layout_width="300dp"
+            android:layout_height="250dp"
+            app:cardCornerRadius="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/profile_icon2" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileImage"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/logo_only" />
+
+        </androidx.cardview.widget.CardView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/uploadProfilePicture"
@@ -30,8 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="-60dp"
             android:clickable="true"
-            app:layout_constraintEnd_toEndOf="@+id/profileImage"
-            app:layout_constraintTop_toBottomOf="@+id/profileImage"
+            app:layout_constraintEnd_toEndOf="@+id/profileImageContainer"
+            app:layout_constraintTop_toBottomOf="@+id/profileImageContainer"
             app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
