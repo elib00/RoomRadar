@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.firebase.storage)
     implementation(libs.glide)
     implementation(libs.firebase.vertexai)
+    implementation(libs.circleimageview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

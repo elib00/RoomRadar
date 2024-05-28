@@ -110,7 +110,7 @@ public class DatabaseManager {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         Toast.makeText(activity, "Login Successful. ", Toast.LENGTH_SHORT).show();
 
-                        String userUID = Objects.requireNonNull(authResult.getUser()).getUid();
+                        currentUserUID = Objects.requireNonNull(authResult.getUser()).getUid();
                         currentUserEmail = Objects.requireNonNull(authResult.getUser()).getEmail();
 
                         userProfileCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -118,9 +118,8 @@ public class DatabaseManager {
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                                 if (task.isSuccessful()) {
-
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        if(document.getId().equals(userUID)){
+                                        if(document.getId().equals(currentUserUID)){
                                             currentUserLoggedIn = document.toObject(User.class);
                                             System.out.println(currentUserLoggedIn.firstName);
                                             break;
@@ -289,7 +288,7 @@ public class DatabaseManager {
                 });
     }
 
-    public static void listBoardingHouse(Activity activity, BoardingHouse house, Uri[] imagesUri){
+    public static void listBoardingHouse(Activity activity, BoardingHouse house, ArrayList<Uri> imagesUri){
         boardingHousesCollection.add(house).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
 
             @Override
@@ -298,8 +297,8 @@ public class DatabaseManager {
 
                     String boardingHouseID = task.getResult().getId();
 
-                    for (int i = 0; i < imagesUri.length; i++) {
-                        uploadImageToDatabase(activity, boardingHouseID + "/", String.format("picture%d", i + 1), imagesUri[i]);
+                    for (int i = 0; i < imagesUri.size(); i++) {
+                        uploadImageToDatabase(activity, boardingHouseID + "/", String.format("picture%d", i + 1), imagesUri.get(i));
                     }
 
 

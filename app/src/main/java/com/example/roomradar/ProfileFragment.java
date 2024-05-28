@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,9 +43,10 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     private TextView username;
     private TextView email;
+    private Button editProfileButton;
+    private Button changePasswordButton;
 
 
     public ProfileFragment() {
@@ -119,9 +121,13 @@ public class ProfileFragment extends Fragment {
     private void initializeFragment(View view){
         username = (TextView) view.findViewById(R.id.profileUsernameTextView);
         email = (TextView) view.findViewById(R.id.profileEmailTextView);
-//
-//        username.setText(DatabaseManager.currentUserLoggedIn.firstName);
-//        email.setText(DatabaseManager.currentUserEmail);
+        editProfileButton = (Button) view.findViewById(R.id.editProfileButton);
+        changePasswordButton = (Button) view.findViewById(R.id.changePasswordButton);
+
+
+        username.setText(String.format("%s %s", DatabaseManager.currentUserLoggedIn.firstName, DatabaseManager.currentUserLoggedIn.lastName));
+        email.setText(DatabaseManager.currentUserEmail);
+
     }
 
 
