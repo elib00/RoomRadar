@@ -1,5 +1,7 @@
 package com.example.roomradar;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -31,6 +33,22 @@ public class BoardingHouseListActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_boarding_house_list);
         initializeView();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            double latitude = data.getDoubleExtra("latitude", 0.0);
+            double longitude = data.getDoubleExtra("longitude", 0.0); // Get longitude value
+
+            Intent intent = new Intent(BoardingHouseListActivity.this, MainActivity.class);
+            intent.putExtra("latitude", latitude);
+            intent.putExtra("longitude", longitude);
+            setResult(Activity.RESULT_OK, intent);
+            finish();
+        }
     }
 
     private void initializeView(){

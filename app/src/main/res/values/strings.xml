@@ -5,6 +5,7 @@
     <string name="notifications_icon_name">Notifications</string>
     <string name="profile_icon_name">Profile</string>
     <string name="email_text">Email</string>
+    <string name="contact_number_text">Contact Number</string>
     <string name="password_text">Password</string>
     <string name="firstname_text">Firstname</string>
     <string name="lastname_text">Lastname</string>

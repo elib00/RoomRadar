@@ -65,6 +65,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) context;
                 Intent intent = new Intent(context, BoardingHouseDetails.class);
+
+//                intent.putExtra("latitude", boardingHouse.location.getLatitude());
+//                intent.putExtra("longitude", boardingHouse.location.getLongitude());
+                intent.putExtra("latitude", 10.295353177982);
+                intent.putExtra("longitude", 123.87802250683309);
+                intent.putExtra("property_name", boardingHouse.propertyName);
                 activity.startActivityForResult(intent, 1);
             }
         });
