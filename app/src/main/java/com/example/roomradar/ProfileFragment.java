@@ -26,6 +26,8 @@ import com.example.roomradar.Entities.BoardingHouse;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.GeoPoint;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 /**
@@ -45,6 +47,7 @@ public class ProfileFragment extends Fragment {
     private String mParam2;
     private TextView username;
     private TextView email;
+    private TextView userType;
     private Button editProfileButton;
     private Button changePasswordButton;
 
@@ -121,11 +124,19 @@ public class ProfileFragment extends Fragment {
     private void initializeFragment(View view){
         username = (TextView) view.findViewById(R.id.profileUsernameTextView);
         email = (TextView) view.findViewById(R.id.profileEmailTextView);
+        userType = (TextView) view.findViewById(R.id.profileUserTypeTextView);
         editProfileButton = (Button) view.findViewById(R.id.editProfileButton);
         changePasswordButton = (Button) view.findViewById(R.id.changePasswordButton);
 
 
         username.setText(String.format("%s %s", DatabaseManager.currentUserLoggedIn.firstName, DatabaseManager.currentUserLoggedIn.lastName));
+
+        if(DatabaseManager.currentUserLoggedIn.isLandlord){
+            userType.setText("Landlord");
+        }else{
+            userType.setText("User");
+        }
+
         email.setText(DatabaseManager.currentUserEmail);
 
     }
