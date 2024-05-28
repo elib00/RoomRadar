@@ -5,4 +5,6 @@
 
     <color name="room_radar_dark_blue">#20409a</color>
     <color name="room_radar_light_blue">#2fc5f3</color>
+    <color name="room_radar_very_dark_blue">#080F39</color>
+
 </resources>
