@@ -7,8 +7,7 @@
     android:layout_gravity="center"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:scrollbarSize="1dp"
+    android:padding="10dp"
     tools:context=".AddListingFragment">
 
     <ProgressBar
@@ -18,12 +17,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:max="100"
-        android:progress="50"
+        android:progress="33"
         android:progressTint="#213395" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -240,7 +240,7 @@
             <Button
                 android:id="@+id/nextListingPageButton"
                 android:layout_width="match_parent"
-                android:layout_height="75dp"
+                android:layout_height="65dp"
                 android:layout_marginTop="16dp"
                 android:backgroundTint="#0B1455"
                 android:text="Continue"

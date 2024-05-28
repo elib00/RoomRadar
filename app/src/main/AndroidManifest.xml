@@ -17,9 +17,6 @@
         android:theme="@style/Theme.RoomRadar"
         tools:targetApi="31">
         <activity
-            android:name=".AddListingActivity"
-            android:exported="false" />
-        <activity
             android:name=".BoardingHouseDetails"
             android:exported="false" />
         <activity

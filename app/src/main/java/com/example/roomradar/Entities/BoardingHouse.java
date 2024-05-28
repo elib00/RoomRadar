@@ -1,5 +1,6 @@
 package com.example.roomradar.Entities;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -32,6 +33,7 @@ public class BoardingHouse {
 
     private BoardingHouse() {}
 
+    @SuppressLint("ParcelCreator")
     public static class Builder implements Parcelable {
         private BoardingHouse boardingHouse;
 
@@ -56,6 +58,8 @@ public class BoardingHouse {
             boardingHouse.additionalFees = new HashMap<>();
         }
 
+
+
         public Builder setLandlordID(String landlordID) {
             boardingHouse.landlordID = landlordID;
             return this;
@@ -77,25 +81,24 @@ public class BoardingHouse {
             address.put("city", city);
             address.put("barangay", barangay);
             address.put("street", street);
-
             boardingHouse.address = address;
             return this;
         }
 
-        public Builder setPropertyType(String propertyType) {
-            boardingHouse.propertyType = propertyType;
-            return this;
-        }
-
-        public Builder setRentalType(String rentalType) {
-            boardingHouse.rentalType = rentalType;
-            return this;
-        }
-
-        public Builder setNumberOfBedrooms(int numberOfBedrooms){
-            boardingHouse.numberOfBedrooms = numberOfBedrooms;
-            return this;
-        }
+//        public Builder setPropertyType(String propertyType) {
+//            boardingHouse.propertyType = propertyType;
+//            return this;
+//        }
+//
+//        public Builder setRentalType(String rentalType) {
+//            boardingHouse.rentalType = rentalType;
+//            return this;
+//        }
+//
+//        public Builder setNumberOfBedrooms(int numberOfBedrooms){
+//            boardingHouse.numberOfBedrooms = numberOfBedrooms;
+//            return this;
+//        }
 
         public Builder setNumberOfBeds(int numberOfBeds){
             boardingHouse.numberOfBeds = numberOfBeds;
@@ -125,36 +128,36 @@ public class BoardingHouse {
             return this;
         }
 
-        public Builder setPhotos(ArrayList<Uri> photos){
-            boardingHouse.photos = photos;
-            return this;
-        }
+//        public Builder setPhotos(ArrayList<Uri> photos){
+//            boardingHouse.photos = photos;
+//            return this;
+//        }
 
         public Builder setDescription(String description){
             boardingHouse.description = description;
             return this;
         }
 
-        public Builder setRules(String rules){
-            boardingHouse.rules = rules;
-            return this;
-        }
+//        public Builder setRules(String rules){
+//            boardingHouse.rules = rules;
+//            return this;
+//        }
 
         public Builder setMonthlyRate(float monthlyRate){
             boardingHouse.monthlyRate = monthlyRate;
             return this;
         }
 
-        public Builder setAdditionalFees(boolean wifi, boolean water, boolean electricity, boolean maintenance){
-            HashMap<String, Boolean> additionalFees = new HashMap<>();
-            additionalFees.put("wifi", wifi);
-            additionalFees.put("water", water);
-            additionalFees.put("electricity", electricity);
-            additionalFees.put("maintenance", maintenance);
-
-            boardingHouse.additionalFees = additionalFees;
-            return this;
-        }
+//        public Builder setAdditionalFees(boolean wifi, boolean water, boolean electricity, boolean maintenance){
+//            HashMap<String, Boolean> additionalFees = new HashMap<>();
+//            additionalFees.put("wifi", wifi);
+//            additionalFees.put("water", water);
+//            additionalFees.put("electricity", electricity);
+//            additionalFees.put("maintenance", maintenance);
+//
+//            boardingHouse.additionalFees = additionalFees;
+//            return this;
+//        }
 
         public BoardingHouse build() {
             return boardingHouse;
@@ -167,7 +170,6 @@ public class BoardingHouse {
 
         @Override
         public void writeToParcel(@NonNull Parcel parcel, int i) {
-
         }
     }
 }

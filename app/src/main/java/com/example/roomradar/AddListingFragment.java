@@ -10,11 +10,13 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -28,6 +30,7 @@ import android.widget.SearchView;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.roomradar.Database.DatabaseManager;
 import com.example.roomradar.Entities.BoardingHouse;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -132,13 +135,14 @@ public class AddListingFragment extends Fragment {
         return fragment;
     }
 
+    public static AddListingFragment newInstance() {
+        return new AddListingFragment();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
             layoutType = getArguments().getInt(ARGUMENT_LAYOUT_TYPE1);
             builder = getArguments().getParcelable(ARGUMENT_LAYOUT_TYPE2);
         }else{
@@ -148,7 +152,10 @@ public class AddListingFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        EdgeToEdge.enable(requireActivity());
         View view = null;
+
+        System.out.println(layoutType);
 
         switch(layoutType){
             case 1:
@@ -162,6 +169,7 @@ public class AddListingFragment extends Fragment {
             case 3:
                 view = inflater.inflate(R.layout.fragment_choose_location, container, false);
                 initializeListing3Fragment(view);
+                break;
         }
 
         return view;
@@ -293,7 +301,6 @@ public class AddListingFragment extends Fragment {
                 builder.setDescription(editDescription.getText().toString());
                 builder.setMonthlyRate(Float.parseFloat(price.getText().toString()));
                 replaceFragment(builder);
-
 //                BoardingHouse boardingHouse = builder.build();
 //                DatabaseManager.listBoardingHouse(requireActivity(), boardingHouse, imageURIList);
 //                Toast.makeText(requireContext(), "Listing success", Toast.LENGTH_SHORT).show();
@@ -329,7 +336,11 @@ public class AddListingFragment extends Fragment {
         listBoardingHouseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                builder.setLocation(new GeoPoint(lastClicked.latitude, lastClicked.longitude));
+                BoardingHouse boardingHouse = builder.build();
+                DatabaseManager.listBoardingHouse(requireActivity(), boardingHouse, imageURIList);
+                Toast.makeText(requireContext(), "Listing success", Toast.LENGTH_SHORT).show();
+                replaceFragment(builder);
             }
         });
     }
@@ -344,6 +355,11 @@ public class AddListingFragment extends Fragment {
             case 2:
                 newFragment = AddListingFragment.newInstance(3, builder);
                 getParentFragmentManager().beginTransaction().replace(R.id.fragmentsContainer, newFragment).commit();
+                break;
+            case 3:
+                newFragment = AddListingFragment.newInstance();
+                getParentFragmentManager().beginTransaction().replace(R.id.fragmentsContainer, newFragment).commit();
+                break;
         }
     }
 
