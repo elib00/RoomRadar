@@ -92,7 +92,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) requireContext();
                 homeSearchView.setIconified(false);
-                Intent intent = new Intent(requireActivity(), BoardingHouseListActivity.class);
+                Intent intent = new Intent(requireContext(), BoardingHouseListActivity.class);
                 activity.startActivityForResult(intent, 1);
                 homeSearchView.clearFocus();
             }
@@ -102,8 +102,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if(hasFocus){
+                    AppCompatActivity activity = (AppCompatActivity) requireContext();
                     Intent intent = new Intent(requireContext(), BoardingHouseListActivity.class);
-                    startActivity(intent);
+                    activity.startActivityForResult(intent, 1);
                     homeSearchView.clearFocus();
                 }
             }

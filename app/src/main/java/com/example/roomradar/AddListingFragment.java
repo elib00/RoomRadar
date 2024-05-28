@@ -347,6 +347,7 @@ public class AddListingFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 builder.setLocation(new GeoPoint(lastClicked.latitude, lastClicked.longitude));
+                builder.setLandlordID(DatabaseManager.currentUserUID);
                 BoardingHouse boardingHouse = builder.build();
                 DatabaseManager.listBoardingHouse(requireActivity(), boardingHouse, imageURIList);
                 Toast.makeText(requireContext(), "Listing success", Toast.LENGTH_SHORT).show();

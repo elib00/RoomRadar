@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        System.out.println("main activity ni");
+        System.out.println("main aact ni");
 
         if (requestCode == 1 && resultCode == RESULT_OK) {
             double latitude = data.getDoubleExtra("latitude", 0.0);

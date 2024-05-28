@@ -68,9 +68,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
 //                intent.putExtra("latitude", boardingHouse.location.getLatitude());
 //                intent.putExtra("longitude", boardingHouse.location.getLongitude());
-                intent.putExtra("latitude", 10.295353177982);
-                intent.putExtra("longitude", 123.87802250683309);
-                intent.putExtra("property_name", boardingHouse.propertyName);
+//                intent.putExtra("latitude", 10.295353177982);
+//                intent.putExtra("longitude", 123.87802250683309);
+//                intent.putExtra("property_name", boardingHouse.propertyName);
+                intent.putExtra("boarding_house_id", map.get(boardingHouse));
                 activity.startActivityForResult(intent, 1);
             }
         });

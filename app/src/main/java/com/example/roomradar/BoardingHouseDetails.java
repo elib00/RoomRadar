@@ -57,6 +57,9 @@ public class BoardingHouseDetails extends AppCompatActivity {
         bhOwnerContact = (TextView) findViewById(R.id.bhOwnerContact);
 
         Bundle values = getIntent().getExtras();
+
+        String boardingHouseID = values.getString("boarding_house_id");
+
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,17 +79,12 @@ public class BoardingHouseDetails extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 assert values != null;
-                double latitude = values.getDouble("latitude");
-                double longitude = values.getDouble("longitude");
-                String propertyName = values.getString("property_name");
-                System.out.println(latitude);
-                System.out.println(longitude);
 
                 Intent intent = new Intent(BoardingHouseDetails.this, BoardingHouseListActivity.class);
-                intent.putExtra("latitude", latitude);
-                intent.putExtra("longitude", longitude);
+                intent.putExtra("latitude", 10.295353177982);
+                intent.putExtra("longitude", 123.87802250683309);
                 setResult(Activity.RESULT_OK, intent);
-                Toast.makeText(BoardingHouseDetails.this, String.format("Locating %s", propertyName), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(BoardingHouseDetails.this, String.format("Locating %s", propertyName), Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
