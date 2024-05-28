@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Pair;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -71,6 +73,10 @@ public class DatabaseManager {
 
     public interface FetchBoardingHousesCallback {
         void onComplete(ArrayList<BoardingHouse> boardingHouses, HashMap<BoardingHouse, String> map);
+    }
+
+    public interface FetchLandlordCallback {
+        void onComplete(BoardingHouse boardingHouse, User landlord);
     }
 
 
@@ -310,5 +316,47 @@ public class DatabaseManager {
         });
 
     }
+    public void getLandlordOfThisBoardingHouse(Activity activity, String bhUid, final FetchLandlordCallback callback) {
+        DocumentReference bhReference = boardingHousesCollection.document(bhUid);
+        bhReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot bhSnapshot = task.getResult();
+                    if (bhSnapshot.exists()) {
+                        BoardingHouse boardingHouse = bhSnapshot.toObject(BoardingHouse.class);
+                        String landlordId = boardingHouse.landlordID;
+                        DocumentReference landlordReference = userProfileCollection.document(landlordId);
+                        landlordReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot landlordSnapshot = task.getResult();
+                                    if (landlordSnapshot.exists()) {
+                                        User landlord = landlordSnapshot.toObject(User.class);
+                                        assert landlord != null;
+                                        landlord.setUid(landlordSnapshot.getId());
+                                        callback.onComplete(boardingHouse, landlord);
+                                    } else {
+                                        Toast.makeText(activity, "No user of such instance exists", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(activity, "Query userProfileDatabase failed", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    } else {
+                        Toast.makeText(activity, "No boarding house of such instance exists", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(activity, "Query boardingHouseDatabase failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+
+
+
 
 }
