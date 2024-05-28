@@ -38,29 +38,37 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/propertyNameTextView"
+            android:id="@+id/propertyName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
             android:text="Property Name"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="19sp" />
 
         <TextView
-            android:id="@+id/propertyNameTextView"
+            android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Tres De Abril, Cebu"
+            android:layout_marginTop="5sp"
+            android:text="📌 Tres De Abril, Cebu"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
+            android:text="⭐ 4.9"
             android:textColor="@color/white"
             android:textSize="12sp" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="34dp"
-            android:layout_marginTop="45sp"
+            android:layout_marginTop="46sp"
             app:cardBackgroundColor="@color/room_radar_light_blue"
-            app:cardCornerRadius="10dp" >
+            app:cardCornerRadius="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -69,7 +77,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -82,8 +90,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/room_radar_very_dark_blue"
                     android:text="/ month"
+                    android:textColor="@color/room_radar_very_dark_blue"
                     android:textSize="8sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
