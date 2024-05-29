@@ -89,6 +89,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:backgroundTint="#0B1650"
+            android:fontFamily="@font/poppins_medium"
             android:text="@string/login_button_text" />
 
     </LinearLayout>
@@ -107,6 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:fontFamily="@font/poppins_medium"
             android:text="@string/no_account_text"
             android:textAlignment="center"
             android:textSize="20sp" />
@@ -117,6 +119,7 @@
             android:layout_height="60dp"
             android:layout_marginBottom="10dp"
             android:backgroundTint="#2FC5F3"
+            android:fontFamily="@font/poppins_medium"
             android:text="@string/register1_text" />
 
         <Button
@@ -124,6 +127,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:backgroundTint="#2FC5F3"
+            android:fontFamily="@font/poppins_medium"
             android:text="@string/register2_text" />
     </LinearLayout>
 
