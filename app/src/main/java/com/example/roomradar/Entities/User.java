@@ -4,8 +4,8 @@ public class User {
     public String firstName;
     public String lastName;
     public boolean isLandlord;
-    private String uid;
     public String contactNumber;
+    private String uid;
 
     public User() {};
     public User(String firstName, String lastName, Boolean isLandlord, String contactNumber){
@@ -18,6 +18,10 @@ public class User {
 
     public void setUid(String uid){
         this.uid = uid;
+    }
+
+    public String getUid(){
+        return uid;
     }
 
 }

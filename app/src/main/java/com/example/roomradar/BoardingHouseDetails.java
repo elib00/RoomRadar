@@ -16,6 +16,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.roomradar.Database.DatabaseManager;
+import com.example.roomradar.Entities.BoardingHouse;
+import com.example.roomradar.Entities.User;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class BoardingHouseDetails extends AppCompatActivity {
     private Button returnButton;
     private Button jumpToMapsButton;
@@ -24,12 +30,16 @@ public class BoardingHouseDetails extends AppCompatActivity {
     private ImageView picture1;
     private ImageView picture2;
     private ImageView picture3;
+    private ImageView landlordPicture;
 
     private TextView bhName;
     private TextView bhAddress;
     private TextView bhPrice;
     private TextView bhOwner;
     private TextView bhOwnerContact;
+
+    private BoardingHouse boardingHouse;
+    private User landlord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +58,7 @@ public class BoardingHouseDetails extends AppCompatActivity {
         picture1 = (ImageView) findViewById(R.id.detailsPicture1);
         picture2 = (ImageView) findViewById(R.id.detailsPicture2);
         picture3 = (ImageView) findViewById(R.id.detailsPicture3);
+        landlordPicture = (ImageView) findViewById(R.id.landlordPicture);
 
         //bh details
         bhName = (TextView) findViewById(R.id.bhName);
@@ -59,6 +70,25 @@ public class BoardingHouseDetails extends AppCompatActivity {
         Bundle values = getIntent().getExtras();
 
         String boardingHouseID = values.getString("boarding_house_id");
+
+        DatabaseManager.getLandlordOfThisBoardingHouse(this, boardingHouseID, new DatabaseManager.FetchLandlordCallback() {
+            @Override
+            public void onComplete(BoardingHouse bh, User owner) {
+                boardingHouse = bh;
+                landlord = owner;
+
+                bhName.setText(boardingHouse.propertyName);
+                bhAddress.setText(boardingHouse.getAddress());
+                bhPrice.setText(String.format("%.2f", boardingHouse.monthlyRate));
+                bhOwner.setText(String.format("%s %s", landlord.firstName, landlord.lastName));
+                bhOwnerContact.setText(landlord.contactNumber);
+
+                DatabaseManager.syncImageViewFromDatabase(BoardingHouseDetails.this, landlord.getUid(), "profilePicture", landlordPicture);
+                DatabaseManager.syncImageViewFromDatabase(BoardingHouseDetails.this, boardingHouseID, "picture1", picture1);
+                DatabaseManager.syncImageViewFromDatabase(BoardingHouseDetails.this, boardingHouseID, "picture2", picture2);
+                DatabaseManager.syncImageViewFromDatabase(BoardingHouseDetails.this, boardingHouseID, "picture3", picture3);
+            }
+        });
 
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,8 +111,8 @@ public class BoardingHouseDetails extends AppCompatActivity {
                 assert values != null;
 
                 Intent intent = new Intent(BoardingHouseDetails.this, BoardingHouseListActivity.class);
-                intent.putExtra("latitude", 10.295353177982);
-                intent.putExtra("longitude", 123.87802250683309);
+                intent.putExtra("latitude", boardingHouse.location.getLatitude());
+                intent.putExtra("longitude", boardingHouse.location.getLongitude());
                 setResult(Activity.RESULT_OK, intent);
 //                Toast.makeText(BoardingHouseDetails.this, String.format("Locating %s", propertyName), Toast.LENGTH_SHORT).show();
                 finish();

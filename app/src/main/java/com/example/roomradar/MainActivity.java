@@ -116,9 +116,6 @@ public class MainActivity extends AppCompatActivity {
                 }else if(item.getItemId() == R.id.mapsItem){
                     System.out.println("maps ni");
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragmentsContainer, mapFragment).addToBackStack(null).commit();
-                }else if(item.getItemId() == R.id.notificationsItem){
-                    System.out.println("notifs ni");
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentsContainer, notificationsFragment).addToBackStack(null).commit();
                 }else if(item.getItemId() == R.id.profileItem){
                     System.out.println("profile ni");
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragmentsContainer, profileFragment).addToBackStack(null).commit();
@@ -126,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("add listing ni");
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragmentsContainer,  new AddListingFragment()).addToBackStack(null).commit();
                 }
-
                 return true;
             }
         });
