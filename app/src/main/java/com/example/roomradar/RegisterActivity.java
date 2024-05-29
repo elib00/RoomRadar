@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -81,6 +82,12 @@ public class RegisterActivity extends AppCompatActivity {
                 String contactNumber = contactNumberInput.getText().toString();
 
                 User registerUser = new User(firstname, lastname, isLandlord, contactNumber);
+
+                if(firstname.equals("") || lastname.equals("") || email.equals("") || password.equals("") || contactNumber.equals("")){
+                    Toast.makeText(RegisterActivity.this, "Please fill up all forms", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 DatabaseManager.registerUser(RegisterActivity.this,email, password, registerUser);
             }
         });
