@@ -20,8 +20,6 @@ import com.example.roomradar.Database.DatabaseManager;
 import com.example.roomradar.Entities.BoardingHouse;
 import com.example.roomradar.Entities.User;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class BoardingHouseDetails extends AppCompatActivity {
     private Button returnButton;
     private Button jumpToMapsButton;

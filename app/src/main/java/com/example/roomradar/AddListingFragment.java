@@ -217,6 +217,10 @@ public class AddListingFragment extends Fragment {
             nextListingPageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(propertyName.getText().toString().equals("") || province.getText().toString().equals("") || municipality.getText().toString().equals("") || barangay.getText().toString().equals("") || street.getText().toString().equals("") || numberOfBathrooms.getText().toString().equals("") || numberOfBeds.getText().toString().equals("")){
+                        Toast.makeText(requireActivity(), "Please fill up all forms", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     BoardingHouse.Builder builder = new BoardingHouse.Builder();
                     builder.setPropertyName(propertyName.getText().toString());
                     builder.setAddress(province.getText().toString(), municipality.getText().toString(), barangay.getText().toString(), street.getText().toString());
@@ -316,6 +320,12 @@ public class AddListingFragment extends Fragment {
         continueToChooseLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(editDescription.getText().toString().equals("") || price.getText().toString().equals("") ){
+                    Toast.makeText(requireActivity(), "Please fill up all forms", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 builder.setDescription(editDescription.getText().toString());
                 System.out.println("the size of the uriLisTemp is: " + uriListTemp.size());
                 builder.setMonthlyRate(Float.parseFloat(price.getText().toString()));

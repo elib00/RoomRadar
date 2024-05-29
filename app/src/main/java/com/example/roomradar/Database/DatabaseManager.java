@@ -295,6 +295,7 @@ public class DatabaseManager {
     }
 
     public static void listBoardingHouse(Activity activity, BoardingHouse house, ArrayList<Uri> imagesUri){
+
         boardingHousesCollection.add(house).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
 
             @Override
