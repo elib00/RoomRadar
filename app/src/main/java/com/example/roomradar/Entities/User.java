@@ -4,6 +4,7 @@ public class User {
     public String firstName;
     public String lastName;
     public boolean isLandlord;
+    private String uid;
     public String contactNumber;
     private String uid;
 
