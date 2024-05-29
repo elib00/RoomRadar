@@ -275,7 +275,7 @@ public class MapFragment extends Fragment {
                 for(BoardingHouse boardingHouse : boardingHouses){
                     GeoPoint boardingHouseLocation = boardingHouse.location;
                     LatLng location = new LatLng(boardingHouseLocation.getLatitude(), boardingHouseLocation.getLongitude());
-                    MarkerOptions locationMarker = new MarkerOptions().position(location).title(boardingHouse.propertyName).icon(BitmapDescriptorFactory.defaultMarker(Color.BLUE));
+                    MarkerOptions locationMarker = new MarkerOptions().position(location).title(boardingHouse.propertyName).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                     System.out.println("Latitude: " + boardingHouseLocation.getLatitude() + " Longitude: " + boardingHouseLocation.getLongitude());
                     googleMap.addMarker(locationMarker);
                 }
