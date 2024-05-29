@@ -155,6 +155,16 @@ public class HomeFragment extends Fragment {
                     address.setText(bh.getAddressString());
                     price.setText(String.format("PHP %.0f", bh.monthlyRate));
                     featuredRoomsContainer.addView(featuredBoardingHouseCard);
+
+                    featuredBoardingHouseCard.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            System.out.println("naclick");
+                            Intent intent = new Intent(requireContext(), BoardingHouseDetails.class);
+                            intent.putExtra("boarding_house_id", map.get(bh));
+                            startActivity(intent);
+                        }
+                    });
                 }
 
                 getCurrentLocation(boardingHouses, map);
@@ -212,18 +222,28 @@ public class HomeFragment extends Fragment {
                     for(int i = 0; i < boardingHouses.size(); i++){
                         GeoPoint point1 = new GeoPoint(currentLocation.latitude, currentLocation.longitude);
                         if(MapFragment.isWithinRange(point1, boardingHouses.get(i).location, 1)){
-                            LinearLayout featuredBoardingHouseCard = (LinearLayout) inflater.inflate(R.layout.home_featured_card, null);
-                            ShapeableImageView image = featuredBoardingHouseCard.findViewById(R.id.propertyImageView);
-                            TextView propertyName = featuredBoardingHouseCard.findViewById(R.id.propertyName);
-                            TextView address = featuredBoardingHouseCard.findViewById(R.id.address);
-                            TextView price = featuredBoardingHouseCard.findViewById(R.id.price);
+                            LinearLayout nearbyBoardingHouseCard = (LinearLayout) inflater.inflate(R.layout.home_featured_card, null);
+                            ShapeableImageView image = nearbyBoardingHouseCard.findViewById(R.id.propertyImageView);
+                            TextView propertyName = nearbyBoardingHouseCard.findViewById(R.id.propertyName);
+                            TextView address = nearbyBoardingHouseCard.findViewById(R.id.address);
+                            TextView price = nearbyBoardingHouseCard.findViewById(R.id.price);
 
                             BoardingHouse bh = boardingHouses.get(i);
                             DatabaseManager.syncImageViewFromDatabase(requireActivity(), map.get(bh), "picture2", image);
                             propertyName.setText(bh.propertyName);
                             address.setText(bh.getAddressString());
                             price.setText(String.format("PHP %.0f", bh.monthlyRate));
-                            nearbyRoomsContainer.addView(featuredBoardingHouseCard);
+                            nearbyRoomsContainer.addView(nearbyBoardingHouseCard);
+
+                            nearbyBoardingHouseCard.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    System.out.println("naclick");
+                                    Intent intent = new Intent(requireContext(), BoardingHouseDetails.class);
+                                    intent.putExtra("boarding_house_id", map.get(bh));
+                                    startActivity(intent);
+                                }
+                            });
                         }
                     }
 
