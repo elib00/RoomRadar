@@ -19,10 +19,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
+        android:fontFamily="@font/poppins_medium"
         android:gravity="center"
         android:text="Page Unavailable for Customers, Create a Landlord Account or Sign In as Landlord"
         android:textAlignment="center"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/return_button"
@@ -30,6 +31,7 @@
         android:layout_height="58dp"
         android:layout_gravity="center"
         android:backgroundTint="#3F51B5"
+        android:fontFamily="@font/poppins_medium"
         android:text="Back"
         android:textSize="14sp" />
 

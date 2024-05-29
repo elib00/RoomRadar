@@ -130,6 +130,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:fontFamily="@font/poppins_bold"
                             android:gravity="left"
                             android:text="Rizwill Apartelle"
                             android:textSize="30sp" />
@@ -139,8 +140,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:fontFamily="@font/poppins_light"
                             android:gravity="left"
-                            android:text="Tres De Abril, Labangon"
+                            android:text="    Tres De Abril, Labangon"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -155,9 +157,9 @@
                             android:id="@+id/bhPrice"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="start|center_vertical"
                             android:layout_weight="1"
-                            android:gravity="center"
+                            android:fontFamily="@font/poppins_medium"
+                            android:gravity="bottom|center"
                             android:text="PHP 3500"
                             android:textSize="18sp" />
 
@@ -166,6 +168,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_weight="1"
+                            android:fontFamily="@font/poppins_light"
                             android:gravity="center_horizontal|center_vertical"
                             android:paddingRight="10px"
                             android:text="per month"
@@ -211,6 +214,7 @@
                                 android:id="@+id/bhOwner"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_medium"
                                 android:text="Mingyu Kim"
                                 android:textSize="24sp" />
 
@@ -218,6 +222,7 @@
                                 android:id="@+id/bhOwnerContact"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_light"
                                 android:text="09271935386"
                                 android:textSize="16sp" />
                         </LinearLayout>
@@ -252,6 +257,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:fontFamily="@font/poppins_medium"
                                 android:text="Beds"
                                 android:textAlignment="center" />
 
@@ -276,6 +282,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:fontFamily="@font/poppins_medium"
                                 android:text="Bathrooms"
                                 android:textAlignment="center" />
 
@@ -296,6 +303,7 @@
                         android:layout_marginLeft="35sp"
                         android:layout_marginTop="15sp"
                         android:layout_marginRight="35sp"
+                        android:fontFamily="@font/poppins_medium"
                         android:text="Description"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -306,6 +314,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="35sp"
                         android:layout_marginRight="35sp"
+                        android:fontFamily="@font/poppins_light"
                         android:text="TextView" />
 
                     <TextView
@@ -315,6 +324,7 @@
                         android:layout_marginLeft="35sp"
                         android:layout_marginTop="15sp"
                         android:layout_marginRight="35sp"
+                        android:fontFamily="@font/poppins_medium"
                         android:text="Ammenities"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -325,6 +335,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="35sp"
                         android:layout_marginRight="35sp"
+                        android:fontFamily="@font/poppins_light"
                         android:text="TextView" />
                 </LinearLayout>
 

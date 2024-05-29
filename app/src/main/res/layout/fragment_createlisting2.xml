@@ -29,6 +29,7 @@
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
                 android:gravity="center"
                 android:text="Create Listing"
                 android:textSize="24sp"
@@ -38,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/poppins_medium"
                 android:text="Upload Images"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -107,6 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/poppins_medium"
                 android:hint="Add description"
                 android:inputType="textMultiLine"
                 android:minLines="3" />
@@ -116,6 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:fontFamily="@font/poppins_medium"
                 android:hint="Add price"
                 android:inputType="numberDecimal" />
 

@@ -55,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|top"
             android:layout_marginTop="16dp"
+            android:fontFamily="@font/poppins_bold"
             android:text="Jeonghan Yoon"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -64,6 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|top"
+            android:fontFamily="@font/poppins_light"
             android:text="User"
             android:textSize="20sp" />
 
@@ -72,6 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|top"
+            android:fontFamily="@font/poppins_light"
             android:text="yoonjeonghan@gmail.com"
             android:textSize="16sp" />
     </LinearLayout>
@@ -91,7 +94,7 @@
             android:layout_marginEnd="32dp"
 
             android:layout_marginBottom="10dp"
-            android:backgroundTint="#8F00BCD4"
+            android:backgroundTint="@color/room_radar_light_blue"
             android:drawablePadding="20dp"
             android:paddingStart="20dp"
             android:shadowRadius="2"
@@ -110,7 +113,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="10dp"
-            android:backgroundTint="#8F00BCD4"
+            android:backgroundTint="@color/room_radar_light_blue"
             android:drawablePadding="20dp"
             android:paddingStart="20dp"
             android:shadowRadius="2"
@@ -129,12 +132,14 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="10dp"
-            android:backgroundTint="#8F00BCD4"
+            android:backgroundTint="#C4C9CA"
             android:drawablePadding="20dp"
+            android:fontFamily="@font/poppins_medium"
             android:paddingStart="20dp"
             android:shadowRadius="2"
             android:text="Log Out"
             android:textAlignment="viewStart"
+            android:textColor="#FF0000"
             android:textColorLink="#0B1650"
             android:textSize="18sp"
             android:textStyle="bold" />

@@ -37,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:fontFamily="@font/poppins_bold"
                 android:gravity="center"
                 android:text="Create Listing"
                 android:textSize="24sp"
@@ -46,6 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/poppins_medium"
                 android:text="Property Name"
                 android:textStyle="bold" />
 
@@ -55,19 +57,20 @@
                 android:layout_height="48dp"
                 android:layout_gravity="center"
                 android:background="@drawable/input_corners"
-                android:backgroundTint="#91BAC5"
+                android:backgroundTint="#9749AEFF"
+                android:fontFamily="@font/poppins_light"
                 android:gravity="center|fill_horizontal"
                 android:hint="Enter property name"
                 android:paddingStart="20dp"
-                android:textColor="#050505"
+                android:textColor="#000000"
                 android:textColorLink="#020202"
-                android:textSize="14sp"
-                />
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/poppins_medium"
                 android:text="Address"
                 android:textStyle="bold" />
 
@@ -78,10 +81,11 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_search_view"
-                android:backgroundTint="#91BAC5"
+                android:backgroundTint="#9749AEFF"
+                android:fontFamily="@font/poppins_light"
                 android:hint="State/Province"
                 android:paddingLeft="20dp"
-                android:textColor="#0A1349"
+                android:textColor="#000000"
                 android:textSize="14sp" />
 
             <EditText
@@ -91,10 +95,11 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_search_view"
-                android:backgroundTint="#91BAC5"
+                android:backgroundTint="#9749AEFF"
+                android:fontFamily="@font/poppins_light"
                 android:hint="City/Municipality"
                 android:paddingLeft="20dp"
-                android:textColor="#0A1349"
+                android:textColor="#000000"
                 android:textSize="14sp" />
 
             <EditText
@@ -104,10 +109,11 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_search_view"
-                android:backgroundTint="#91BAC5"
+                android:backgroundTint="#9749AEFF"
+                android:fontFamily="@font/poppins_light"
                 android:hint="Barangay"
                 android:paddingLeft="20dp"
-                android:textColor="#0A1349"
+                android:textColor="#000000"
                 android:textSize="14sp" />
 
             <EditText
@@ -117,10 +123,11 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_search_view"
-                android:backgroundTint="#91BAC5"
+                android:backgroundTint="#9749AEFF"
+                android:fontFamily="@font/poppins_light"
                 android:hint="Street"
                 android:paddingLeft="20dp"
-                android:textColor="#0A1349"
+                android:textColor="#000000"
                 android:textSize="14sp" />
 
             <TextView
@@ -128,6 +135,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
 
+                android:fontFamily="@font/poppins_medium"
                 android:text="Beds and Bathrooms"
                 android:textStyle="bold" />
 
@@ -138,11 +146,12 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_search_view"
-                android:backgroundTint="#91BAC5"
+                android:backgroundTint="#9749AEFF"
+                android:fontFamily="@font/poppins_light"
                 android:hint="Number of beds"
                 android:inputType="number"
                 android:paddingLeft="20dp"
-                android:textColor="#0A1349"
+                android:textColor="#000000"
                 android:textSize="14sp" />
 
             <EditText
@@ -152,17 +161,19 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_search_view"
-                android:backgroundTint="#91BAC5"
+                android:backgroundTint="#9749AEFF"
+                android:fontFamily="@font/poppins_light"
                 android:hint="Number of bathrooms"
                 android:inputType="number"
                 android:paddingLeft="20dp"
-                android:textColor="#0A1349"
+                android:textColor="#000000"
                 android:textSize="14sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/poppins_medium"
                 android:text="Amenities"
                 android:textStyle="bold" />
 
@@ -179,7 +190,9 @@
                     android:layout_width="74dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center"
+                    android:fontFamily="@font/poppins_light"
                     android:text="Wi-Fi"
+                    android:textColor="#000000"
                     android:textSize="12sp" />
 
                 <CheckBox
@@ -188,14 +201,18 @@
                     android:layout_height="48dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="16dp"
+                    android:fontFamily="@font/poppins_light"
                     android:text="Kitchen"
+                    android:textColor="#000000"
                     android:textSize="12sp" />
 
                 <CheckBox
                     android:id="@+id/cb_washer"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
+                    android:fontFamily="@font/poppins_light"
                     android:text="Washer"
+                    android:textColor="#000000"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -211,14 +228,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:layout_marginLeft="16dp"
+                    android:fontFamily="@font/poppins_light"
                     android:text="Parking"
+                    android:textColor="#000000"
                     android:textSize="12sp" />
 
                 <CheckBox
                     android:id="@+id/cb_ac"
                     android:layout_width="75dp"
                     android:layout_height="48dp"
+                    android:fontFamily="@font/poppins_light"
                     android:text="A/C"
+                    android:textColor="#000000"
                     android:textSize="12sp" />
 
                 <CheckBox
@@ -226,7 +247,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:layout_marginLeft="16dp"
+                    android:fontFamily="@font/poppins_light"
                     android:text="Refrigerator"
+                    android:textColor="#000000"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -235,7 +258,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_marginTop="16dp"
-                android:text="Allow pets" />
+                android:fontFamily="@font/poppins_light"
+                android:text="Allow pets"
+                android:textColor="#000000" />
 
             <Button
                 android:id="@+id/nextListingPageButton"
