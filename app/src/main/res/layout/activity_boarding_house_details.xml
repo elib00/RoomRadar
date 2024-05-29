@@ -5,19 +5,20 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="10sp"
     android:background="#FFFFFF"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".BoardingHouseDetails">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/returnToListButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
@@ -30,7 +31,7 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/jumpToMapsButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="20dp"
@@ -41,11 +42,12 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -65,24 +67,47 @@
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:id="@+id/picture1"
-                            android:layout_width="410dp"
-                            android:layout_height="250dp"
-                            app:srcCompat="@drawable/logo_only" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="400dp"
+                            android:layout_height="240dp">
 
-                        <ImageView
-                            android:id="@+id/picture2"
-                            android:layout_width="410dp"
-                            android:layout_height="250dp"
-                            app:srcCompat="@drawable/logo_only" />
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/detailsPicture1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="10dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/logo_only" />
 
-                        <ImageView
-                            android:id="@+id/picture3"
-                            android:layout_width="410dp"
-                            android:layout_height="250dp"
-                            android:layout_weight="1"
-                            app:srcCompat="@drawable/logo_only" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="400dp"
+                            android:layout_height="240dp">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/detailsPicture2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="10dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/logo_only" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="400dp"
+                            android:layout_height="240dp">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/detailsPicture3"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="10dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/logo_only" />
+
+                        </androidx.cardview.widget.CardView>
                     </LinearLayout>
                 </HorizontalScrollView>
 
@@ -97,16 +122,15 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="left"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:paddingStart="10dp">
 
                         <TextView
                             android:id="@+id/bhName"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="25sp"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="left"
-                            android:paddingLeft="30px"
                             android:text="Rizwill Apartelle"
                             android:textSize="30sp" />
 
@@ -114,10 +138,8 @@
                             android:id="@+id/bhAddress"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="25sp"
                             android:layout_weight="1"
                             android:gravity="left"
-                            android:paddingLeft="30px"
                             android:text="Tres De Abril, Labangon"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -129,14 +151,12 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/price"
-                            android:layout_width="117dp"
-                            android:layout_height="2dp"
+                            android:id="@+id/bhPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center|center_horizontal"
-                            android:layout_marginRight="18sp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:paddingRight="10px"
                             android:text="P 3500"
                             android:textSize="24sp" />
 
@@ -144,7 +164,6 @@
                             android:id="@+id/textView4"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:layout_marginRight="18sp"
                             android:layout_weight="1"
                             android:gravity="center|top"
                             android:paddingRight="10px"
@@ -173,11 +192,12 @@
                         android:orientation="horizontal"
                         android:padding="10sp">
 
-                        <ImageView
-                            android:id="@+id/imageView6"
-                            android:layout_width="62dp"
-                            android:layout_height="59dp"
-                            app:srcCompat="@drawable/profile_icon2" />
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/landlordPicture"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/profile_icon2" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -187,14 +207,14 @@
                             android:paddingLeft="10sp">
 
                             <TextView
-                                android:id="@+id/owner"
+                                android:id="@+id/bhOwner"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Mingyu Kim"
                                 android:textSize="24sp" />
 
                             <TextView
-                                android:id="@+id/number"
+                                android:id="@+id/bhOwnerContact"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="09271935386"
@@ -205,67 +225,16 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <LinearLayout
+                <HorizontalScrollView
+                    android:id="@+id/amenitiesContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:layout_marginTop="7sp"
-                    android:gravity="center|center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_height="80dp">
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="160dp"
-                        android:layout_height="43dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="11sp"
-                        android:layout_marginRight="11sp"
-                        android:padding="100dp"
-                        android:paddingTop="30dp"
-                        app:cardBackgroundColor="#00BFBFBF"
-                        app:cardCornerRadius="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/numBeds"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="0 Beds" />
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="160dp"
-                        android:layout_height="43dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="11sp"
-                        android:layout_marginRight="11sp"
-                        android:padding="100dp"
-                        android:paddingTop="30dp"
-                        app:cardBackgroundColor="#00BFBFBF"
-                        app:cardCornerRadius="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/numBathroom"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="0 Bathrooms" />
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" />
+                </HorizontalScrollView>
 
                 <TextView
                     android:id="@+id/DescriptionTitle"
@@ -279,26 +248,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="35sp"
-                    android:layout_marginRight="35sp"
-                    android:text="TextView" />
-
-                <TextView
-                    android:id="@+id/rulesTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="35sp"
-                    android:layout_marginTop="15sp"
-                    android:layout_marginRight="35sp"
-                    android:text="Rules"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/rules"
+                    android:id="@+id/bhDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="35sp"

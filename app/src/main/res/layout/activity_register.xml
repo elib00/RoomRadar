@@ -10,7 +10,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:weightSum="1"
-    tools:context=".RegisterTenantActivity">
+    tools:context=".RegisterActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,6 +28,23 @@
             android:src="@drawable/logo_with_text" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/registerPageIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -36,7 +53,7 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -47,7 +64,7 @@
                 android:padding="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/firstnameSignUpTenantInput"
+                    android:id="@+id/firstnameInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -66,7 +83,7 @@
                 android:padding="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/lastnameSignUpTenantInput"
+                    android:id="@+id/lastnameInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -86,13 +103,32 @@
                 android:padding="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/emailSignUpTenantInput"
+                    android:id="@+id/emailInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:drawableStart="@drawable/email_icon"
                     android:drawablePadding="10dp"
                     android:hint="@string/email_text"
+                    android:imeOptions="actionDone"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/contactNumberInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableStart="@drawable/phone_icon"
+                    android:drawablePadding="10dp"
+                    android:hint="@string/contact_number_text"
                     android:imeOptions="actionDone"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -106,11 +142,12 @@
                 android:padding="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passwordSignUpTenantInput"
+                    android:id="@+id/passwordInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:drawableStart="@drawable/lock_icon"
+                    android:drawableEnd="@drawable/password_protected_icon"
                     android:drawablePadding="10dp"
                     android:hint="@string/password_text"
                     android:imeOptions="actionDone"
@@ -120,9 +157,9 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/signUpButtonTenant"
+                android:id="@+id/signUpButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:backgroundTint="#0B1650"

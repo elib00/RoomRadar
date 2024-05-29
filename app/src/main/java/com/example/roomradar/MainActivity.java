@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final HomeFragment homeFragment = new HomeFragment();
     private final NotificationsFragment notificationsFragment = new NotificationsFragment();
-    private final MapFragment mapFragment = new MapFragment();
+    private MapFragment mapFragment = new MapFragment();
     private final ProfileFragment profileFragment = new ProfileFragment();
     public BottomNavigationView bottomNavigationView;
 
@@ -38,23 +38,24 @@ public class MainActivity extends AppCompatActivity {
 //        fragmentManager.beginTransaction().replace(R.id.fragmentsContainer, addListingFragment).commit();
 //    }
 
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == 1 && resultCode == RESULT_OK) {
-//            System.out.println("okayy");
-//            double latitude = data.getDoubleExtra("latitude", 0.0);
-//            double longitude = data.getDoubleExtra("longitude", 0.0); // Get longitude value
-//
-//            addListingFragment = AddListingFragment.newInstance(2);
-//            bottomNavigationView.setSelectedItemId(R.id.mapsItem);
-//            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentsContainer, addListingFragment).commit();
-//        }
-//
-//        System.out.println("debugging");
-//    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        System.out.println("main aact ni");
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            double latitude = data.getDoubleExtra("latitude", 0.0);
+            double longitude = data.getDoubleExtra("longitude", 0.0); // Get longitude value
+            System.out.println(latitude);
+            System.out.println(longitude);
+
+            mapFragment = MapFragment.newInstance(latitude, longitude);
+            bottomNavigationView.setSelectedItemId(R.id.mapsItem);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentsContainer, mapFragment).commit();
+        }
+    }
 
     @SuppressLint("MissingSuperCall")
     @Override

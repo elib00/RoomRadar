@@ -110,10 +110,10 @@ public class MapFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -126,8 +126,8 @@ public class MapFragment extends Fragment {
         if(args != null){
             double latitude = args.getDouble("latitude", 0.0);
             double longitude = args.getDouble("longitude", 0.0);
-//            updateMapLocation(latitude, longitude);
-//            setArguments(null);
+            updateMapLocation(latitude, longitude);
+            setArguments(null);
         }else{
             fusedLocationProviderClient = (FusedLocationProviderClient) LocationServices.getFusedLocationProviderClient(requireActivity());
 
@@ -247,6 +247,32 @@ public class MapFragment extends Fragment {
 
 
                 googleMap.addCircle(circleOptions);
+                googleMap.addMarker(currentLocationMarker);
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f));
+            }
+        });
+    }
+
+    //overloaded method
+    public void updateMapLocation(double latitude, double longitude){
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //               a                           int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(@NonNull GoogleMap googleMap) {
+                googleMap.clear();
+                LatLng currentLocation = new LatLng(latitude, longitude);
+                MarkerOptions currentLocationMarker = new MarkerOptions().position(currentLocation).title("Current location");
                 googleMap.addMarker(currentLocationMarker);
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f));
             }

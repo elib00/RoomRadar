@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -89,9 +90,10 @@ public class HomeFragment extends Fragment {
         homeSearchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AppCompatActivity activity = (AppCompatActivity) requireContext();
                 homeSearchView.setIconified(false);
                 Intent intent = new Intent(requireContext(), BoardingHouseListActivity.class);
-                startActivity(intent);
+                activity.startActivityForResult(intent, 1);
                 homeSearchView.clearFocus();
             }
         });
@@ -100,8 +102,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if(hasFocus){
+                    AppCompatActivity activity = (AppCompatActivity) requireContext();
                     Intent intent = new Intent(requireContext(), BoardingHouseListActivity.class);
-                    startActivity(intent);
+                    activity.startActivityForResult(intent, 1);
                     homeSearchView.clearFocus();
                 }
             }

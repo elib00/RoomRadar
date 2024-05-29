@@ -107,18 +107,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        TextInputEditText passwordEditText = findViewById(R.id.passwordLoginInput);
-        passwordEditText.setHapticFeedbackEnabled(false); // to remove vibration
-
-        passwordEditText.setOnTouchListener(new View.OnTouchListener() {
+//        TextInputEditText passwordEditText = findViewById(R.id.passwordLoginInput);
+        password.setHapticFeedbackEnabled(false); // to remove vibration
+        password.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    int drawableWidth = passwordEditText.getCompoundDrawables()[2].getBounds().width();
-                    if (event.getRawX() >= (passwordEditText.getRight() - drawableWidth)) {
+                    int drawableWidth = password.getCompoundDrawables()[2].getBounds().width();
+                    if (event.getRawX() >= (password.getRight() - drawableWidth)) {
                         // Click event occurred on the end drawable
-                        togglePasswordVisibility(passwordEditText);
-                        updateEndDrawable(passwordEditText);
+                        togglePasswordVisibility(password);
+                        updateEndDrawable(password);
                         return true; // Consume the touch event
                     }
                 }
@@ -129,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
         registerAsTenantButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, RegisterTenantActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 intent.putExtra("isLandlord", false);
                 startActivity(intent);
             }
@@ -138,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
         registerAsLandlordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, RegisterTenantActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 intent.putExtra("isLandlord", true);
                 startActivity(intent);
             }
