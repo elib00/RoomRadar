@@ -113,7 +113,7 @@ public class HomeFragment extends Fragment {
                 featuredRoomsContainer.removeAllViews();
 
                 for(int i = 0; i < 3; i++){
-                    CardView featuredBoardingHouseCard = (CardView) inflater.inflate(R.layout.home_featured_card, null);
+                    LinearLayout featuredBoardingHouseCard = (LinearLayout) inflater.inflate(R.layout.home_featured_card, null);
                     ShapeableImageView image = featuredBoardingHouseCard.findViewById(R.id.propertyImageView);
                     TextView propertyName = featuredBoardingHouseCard.findViewById(R.id.propertyName);
                     TextView address = featuredBoardingHouseCard.findViewById(R.id.address);
