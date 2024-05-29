@@ -53,7 +53,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         DatabaseManager.syncImageViewFromDatabase((Activity) context, map.get(boardingHouse), "picture1", holder.imageHolder);
 
         holder.propertyAddress.setText(addressString);
-        holder.propertyPrice.setText(String.format("%f / month", boardingHouse.monthlyRate));
+        holder.propertyPrice.setText(String.format("PHP %.0f / month", boardingHouse.monthlyRate));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

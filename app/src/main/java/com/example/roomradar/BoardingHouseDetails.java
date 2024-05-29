@@ -25,8 +25,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class BoardingHouseDetails extends AppCompatActivity {
     private Button returnButton;
     private Button jumpToMapsButton;
-    private ImageView favoriteButton;
-
     private ImageView picture1;
     private ImageView picture2;
     private ImageView picture3;
@@ -37,6 +35,10 @@ public class BoardingHouseDetails extends AppCompatActivity {
     private TextView bhPrice;
     private TextView bhOwner;
     private TextView bhOwnerContact;
+    private TextView noOfBaths;
+    private TextView noOfBeds;
+    private TextView description;
+    private TextView amenities;
 
     private BoardingHouse boardingHouse;
     private User landlord;
@@ -52,7 +54,6 @@ public class BoardingHouseDetails extends AppCompatActivity {
     void initializeView(){
         returnButton = (Button) findViewById(R.id.returnToListButton);
         jumpToMapsButton = (Button) findViewById(R.id.jumpToMapsButton);
-        favoriteButton = (ImageView) findViewById(R.id.favorite);
 
         //pics
         picture1 = (ImageView) findViewById(R.id.detailsPicture1);
@@ -66,6 +67,10 @@ public class BoardingHouseDetails extends AppCompatActivity {
         bhPrice = (TextView) findViewById(R.id.bhPrice);
         bhOwner = (TextView) findViewById(R.id.bhOwner);
         bhOwnerContact = (TextView) findViewById(R.id.bhOwnerContact);
+        noOfBaths = (TextView) findViewById(R.id.numberOfBathroomsTextView);
+        noOfBeds = (TextView) findViewById(R.id.numberOfBedsTextView);
+        description = (TextView) findViewById(R.id.bhDescription);
+        amenities = (TextView) findViewById(R.id.bhAmenities);
 
         Bundle values = getIntent().getExtras();
 
@@ -79,9 +84,13 @@ public class BoardingHouseDetails extends AppCompatActivity {
 
                 bhName.setText(boardingHouse.propertyName);
                 bhAddress.setText(boardingHouse.getAddress());
-                bhPrice.setText(String.format("%.2f", boardingHouse.monthlyRate));
+                bhPrice.setText(String.format("PHP %.0f", boardingHouse.monthlyRate));
                 bhOwner.setText(String.format("%s %s", landlord.firstName, landlord.lastName));
                 bhOwnerContact.setText(landlord.contactNumber);
+                noOfBaths.setText(String.format("%d", boardingHouse.numberOfBathrooms));
+                noOfBeds.setText(String.format("%d", boardingHouse.numberOfBeds));
+                description.setText(boardingHouse.description);
+                amenities.setText(boardingHouse.getAmenities());
 
                 DatabaseManager.syncImageViewFromDatabase(BoardingHouseDetails.this, landlord.getUid(), "profilePicture", landlordPicture);
                 DatabaseManager.syncImageViewFromDatabase(BoardingHouseDetails.this, boardingHouseID, "picture1", picture1);
@@ -89,14 +98,6 @@ public class BoardingHouseDetails extends AppCompatActivity {
                 DatabaseManager.syncImageViewFromDatabase(BoardingHouseDetails.this, boardingHouseID, "picture3", picture3);
             }
         });
-
-        favoriteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                favoriteButton.setBackgroundColor(Color.RED);
-            }
-        });
-
 
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override

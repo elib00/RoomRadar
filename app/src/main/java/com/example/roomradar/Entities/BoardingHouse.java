@@ -42,6 +42,44 @@ public class BoardingHouse {
         return addressString;
     }
 
+    public String getAmenities(){
+        String values = "";
+        if(Boolean.TRUE.equals(amenities.get("hasWifi"))){
+            values += "WiFi ";
+        }
+
+        if(Boolean.TRUE.equals(amenities.get("hasKitchen"))){
+            values += "Kitchen ";
+        }
+
+        if(Boolean.TRUE.equals(amenities.get("hasWasher"))){
+            values += "Washer ";
+        }
+
+        if(Boolean.TRUE.equals(amenities.get("hasParking"))){
+            values += "Parking ";
+        }
+
+        if(Boolean.TRUE.equals(amenities.get("hasAC"))){
+            values += "Air Conditioner ";
+        }
+
+        if(Boolean.TRUE.equals(amenities.get("hasRef"))){
+            values += "Refrigerator ";
+        }
+
+        String[] amenitiesOffered = values.split(" ");
+        StringBuilder returnValue = new StringBuilder();
+        String comma = "";
+
+        for(String amenity : amenitiesOffered){
+            returnValue.append(comma).append(amenity);
+            comma = ", ";
+        }
+
+        return returnValue.toString();
+    }
+
     @SuppressLint("ParcelCreator")
     public static class Builder implements Parcelable {
         private BoardingHouse boardingHouse;

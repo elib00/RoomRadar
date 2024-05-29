@@ -3,6 +3,7 @@ package com.example.roomradar;
 import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,8 +21,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 
+import com.example.roomradar.Database.DatabaseManager;
+import com.example.roomradar.Entities.BoardingHouse;
 import com.google.api.Distribution;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -42,6 +48,8 @@ public class HomeFragment extends Fragment {
     private SearchView homeSearchView;
     private LinearLayout searchViewContainer;
 
+    private ArrayList<BoardingHouse> boardingHouses;
+    private HashMap<BoardingHouse, String> map;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -87,6 +95,14 @@ public class HomeFragment extends Fragment {
         homeSearchView = (SearchView) view.findViewById(R.id.homeSearchView);
         searchViewContainer = (LinearLayout) view.findViewById(R.id.homeSearchViewContainer);
 
+        DatabaseManager.getAllBoardingHouses((Activity) requireContext(), new DatabaseManager.FetchBoardingHousesCallback() {
+            @Override
+            public void onComplete(ArrayList<BoardingHouse> bhList, HashMap<BoardingHouse, String> bhIdList) {
+                boardingHouses = bhList;
+                map = bhIdList;
+            }
+        });
+
         homeSearchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,6 +120,8 @@ public class HomeFragment extends Fragment {
                 if(hasFocus){
                     AppCompatActivity activity = (AppCompatActivity) requireContext();
                     Intent intent = new Intent(requireContext(), BoardingHouseListActivity.class);
+                    intent.putParcelableArrayListExtra("boarding_houses_list", (ArrayList<? extends Parcelable>) boardingHouses);
+                    intent.put
                     activity.startActivityForResult(intent, 1);
                     homeSearchView.clearFocus();
                 }
