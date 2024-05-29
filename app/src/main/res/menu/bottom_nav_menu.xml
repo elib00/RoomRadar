@@ -9,12 +9,12 @@
         android:id="@+id/mapsItem"/>
 
     <item android:title="Add Listing"
-        android:icon="@drawable/plus_round_icon"
+        android:icon="@drawable/add_listing_icon"
         android:id="@+id/addListingItem"/>
 
-    <item android:title="@string/notifications_icon_name"
-        android:icon="@drawable/notifications_icon"
-        android:id="@+id/notificationsItem"/>
+<!--    <item android:title="@string/notifications_icon_name"-->
+<!--        android:icon="@drawable/notifications_icon"-->
+<!--        android:id="@+id/notificationsItem"/>-->
 
     <item android:title="@string/profile_icon_name"
         android:icon="@drawable/profile_icon"

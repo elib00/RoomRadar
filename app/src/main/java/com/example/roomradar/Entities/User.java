@@ -5,6 +5,7 @@ public class User {
     public String lastName;
     public boolean isLandlord;
     public String contactNumber;
+    private String uid;
 
     public User() {};
     public User(String firstName, String lastName, Boolean isLandlord, String contactNumber){
@@ -12,6 +13,11 @@ public class User {
         this.lastName = lastName;
         this.isLandlord = isLandlord;
         this.contactNumber = contactNumber;
+        uid = "default";
+    }
+
+    public void setUid(String uid){
+        this.uid = uid;
     }
 
 }
