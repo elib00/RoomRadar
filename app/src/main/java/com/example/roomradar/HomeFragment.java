@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.os.Parcelable;
@@ -20,14 +21,17 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.example.roomradar.Database.DatabaseManager;
 import com.example.roomradar.Entities.BoardingHouse;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.api.Distribution;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,6 +51,7 @@ public class HomeFragment extends Fragment {
 
     private SearchView homeSearchView;
     private LinearLayout searchViewContainer;
+    private LinearLayout featuredRoomsContainer;
 
     private ArrayList<BoardingHouse> boardingHouses;
     private HashMap<BoardingHouse, String> map;
@@ -94,12 +99,34 @@ public class HomeFragment extends Fragment {
     private void initializeFragment(View view){
         homeSearchView = (SearchView) view.findViewById(R.id.homeSearchView);
         searchViewContainer = (LinearLayout) view.findViewById(R.id.homeSearchViewContainer);
+        featuredRoomsContainer = (LinearLayout) view.findViewById(R.id.featuredRoomsContainer);
 
         DatabaseManager.getAllBoardingHouses((Activity) requireContext(), new DatabaseManager.FetchBoardingHousesCallback() {
             @Override
             public void onComplete(ArrayList<BoardingHouse> bhList, HashMap<BoardingHouse, String> bhIdList) {
                 boardingHouses = bhList;
                 map = bhIdList;
+
+                int[] randomIndexes = getRandomIndexes(boardingHouses.size());
+
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                featuredRoomsContainer.removeAllViews();
+
+                for(int i = 0; i < 3; i++){
+                    CardView featuredBoardingHouseCard = (CardView) inflater.inflate(R.layout.home_featured_card, null);
+                    ShapeableImageView image = featuredBoardingHouseCard.findViewById(R.id.propertyImageView);
+                    TextView propertyName = featuredBoardingHouseCard.findViewById(R.id.propertyName);
+                    TextView address = featuredBoardingHouseCard.findViewById(R.id.address);
+                    TextView price = featuredBoardingHouseCard.findViewById(R.id.price);
+
+                    int index = randomIndexes[i];
+                    BoardingHouse bh = boardingHouses.get(index);
+                    DatabaseManager.syncImageViewFromDatabase(requireActivity(), map.get(bh), "picture1", image);
+                    propertyName.setText(bh.propertyName);
+                    address.setText(bh.getAddress());
+                    price.setText(String.format("PHP %.0f", bh.monthlyRate));
+                    featuredRoomsContainer.addView(featuredBoardingHouseCard);
+                }
             }
         });
 
@@ -120,13 +147,43 @@ public class HomeFragment extends Fragment {
                 if(hasFocus){
                     AppCompatActivity activity = (AppCompatActivity) requireContext();
                     Intent intent = new Intent(requireContext(), BoardingHouseListActivity.class);
-                    intent.putParcelableArrayListExtra("boarding_houses_list", (ArrayList<? extends Parcelable>) boardingHouses);
-                    intent.put
                     activity.startActivityForResult(intent, 1);
                     homeSearchView.clearFocus();
                 }
             }
         });
 
+    }
+
+    private int[] getRandomIndexes(int size){
+        int[] indices = new int[3];
+        Random random = new Random();
+        ArrayList<Integer> taken = new ArrayList<>();
+
+//        int count = 0;
+//        while(count != 3){
+//            System.out.println("hi");
+//            int randomIndex;
+//            while(true){
+//               randomIndex = random.nextInt(size);
+//               if(!taken.contains(randomIndex)){
+//                   taken.add(randomIndex);
+//                   indexes[count] = randomIndex;
+//                   break;
+//               }
+//            }
+//
+//            count++;
+//        }
+
+        for(int i = 0; i < 3; i++){
+            indices[i] = random.nextInt(size);
+        }
+
+        for(int i = 0; i < 3; i++){
+            System.out.println(indices[i]);
+        }
+
+        return indices;
     }
 }
