@@ -42,10 +42,12 @@ public class BoardingHouseListActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK) {
             double latitude = data.getDoubleExtra("latitude", 0.0);
             double longitude = data.getDoubleExtra("longitude", 0.0); // Get longitude value
+            String name = data.getStringExtra("boarding_house_name");
 
             Intent intent = new Intent(BoardingHouseListActivity.this, MainActivity.class);
             intent.putExtra("latitude", latitude);
             intent.putExtra("longitude", longitude);
+            intent.putExtra("boarding_house_name", name);
             setResult(Activity.RESULT_OK, intent);
             finish();
         }

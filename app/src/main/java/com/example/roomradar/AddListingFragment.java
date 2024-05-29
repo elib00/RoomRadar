@@ -171,7 +171,11 @@ public class AddListingFragment extends Fragment {
 
         switch(layoutType){
             case 1:
-                view = inflater.inflate(R.layout.fragment_createlisting1, container, false);
+                if(DatabaseManager.currentUserLoggedIn.isLandlord){
+                    view = inflater.inflate(R.layout.fragment_createlisting1, container, false);
+                }else{
+                    view = inflater.inflate(R.layout.page_unavailable, container, false);
+                }
                 initializeListing1Fragment(view);
                 break;
             case 2:
@@ -188,40 +192,42 @@ public class AddListingFragment extends Fragment {
     }
 
     private void initializeListing1Fragment(View view){
-        nextListingPageButton = (Button) view.findViewById(R.id.nextListingPageButton);
+        if(DatabaseManager.currentUserLoggedIn.isLandlord){
+            nextListingPageButton = (Button) view.findViewById(R.id.nextListingPageButton);
 
-        propertyName = (EditText) view.findViewById(R.id.et_property_name);
+            propertyName = (EditText) view.findViewById(R.id.et_property_name);
 
-        province = (EditText) view.findViewById(R.id.et_state_province);
-        municipality = (EditText) view.findViewById(R.id.et_city_municipality);
-        barangay = (EditText) view.findViewById(R.id.et_barangay);
-        street = (EditText) view.findViewById(R.id.et_street);
+            province = (EditText) view.findViewById(R.id.et_state_province);
+            municipality = (EditText) view.findViewById(R.id.et_city_municipality);
+            barangay = (EditText) view.findViewById(R.id.et_barangay);
+            street = (EditText) view.findViewById(R.id.et_street);
 
-        numberOfBathrooms = (EditText) view.findViewById(R.id.et_bathrooms);
-        numberOfBeds = (EditText) view.findViewById(R.id.et_beds);
+            numberOfBathrooms = (EditText) view.findViewById(R.id.et_bathrooms);
+            numberOfBeds = (EditText) view.findViewById(R.id.et_beds);
 
-        //checkboxes
-        wifi = (CheckBox) view.findViewById(R.id.cb_wifi);
-        kitchen = (CheckBox) view.findViewById(R.id.cb_kitchen);
-        washer = (CheckBox) view.findViewById(R.id.cb_washer);
-        parking = (CheckBox) view.findViewById(R.id.cb_parking);
-        aircon = (CheckBox) view.findViewById(R.id.cb_ac);
-        refrigerator = (CheckBox) view.findViewById(R.id.cb_refrigerator);
-        allowPets = (Switch) view.findViewById(R.id.sw_allow_pets);
+            //checkboxes
+            wifi = (CheckBox) view.findViewById(R.id.cb_wifi);
+            kitchen = (CheckBox) view.findViewById(R.id.cb_kitchen);
+            washer = (CheckBox) view.findViewById(R.id.cb_washer);
+            parking = (CheckBox) view.findViewById(R.id.cb_parking);
+            aircon = (CheckBox) view.findViewById(R.id.cb_ac);
+            refrigerator = (CheckBox) view.findViewById(R.id.cb_refrigerator);
+            allowPets = (Switch) view.findViewById(R.id.sw_allow_pets);
 
-        nextListingPageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                BoardingHouse.Builder builder = new BoardingHouse.Builder();
-                builder.setPropertyName(propertyName.getText().toString());
-                builder.setAddress(province.getText().toString(), municipality.getText().toString(), barangay.getText().toString(), street.getText().toString());
-                builder.setNumberOfBathrooms(Integer.parseInt(numberOfBathrooms.getText().toString()));
-                builder.setNumberOfBeds(Integer.parseInt(numberOfBeds.getText().toString()));
-                builder.setAmenities(wifi.isChecked(), kitchen.isChecked(), washer.isChecked(), parking.isChecked(), aircon.isChecked(), refrigerator.isChecked());
-                builder.setAllowPets(allowPets.isChecked());
-                replaceFragment(builder, imageURIList);
-            }
-        });
+            nextListingPageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    BoardingHouse.Builder builder = new BoardingHouse.Builder();
+                    builder.setPropertyName(propertyName.getText().toString());
+                    builder.setAddress(province.getText().toString(), municipality.getText().toString(), barangay.getText().toString(), street.getText().toString());
+                    builder.setNumberOfBathrooms(Integer.parseInt(numberOfBathrooms.getText().toString()));
+                    builder.setNumberOfBeds(Integer.parseInt(numberOfBeds.getText().toString()));
+                    builder.setAmenities(wifi.isChecked(), kitchen.isChecked(), washer.isChecked(), parking.isChecked(), aircon.isChecked(), refrigerator.isChecked());
+                    builder.setAllowPets(allowPets.isChecked());
+                    replaceFragment(builder, imageURIList);
+                }
+            });
+        }
     }
 
     private void initializeListing2Fragment(View view){

@@ -34,6 +34,7 @@ import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.GeoPoint;
@@ -97,11 +98,12 @@ public class MapFragment extends Fragment {
         return fragment;
     }
 
-    public static MapFragment newInstance(double latitude, double longitude) {
+    public static MapFragment newInstance(double latitude, double longitude, String name) {
         MapFragment fragment = new MapFragment();
         Bundle args = new Bundle();
         args.putDouble("latitude", latitude);
         args.putDouble("longitude", longitude);
+        args.putString("boarding_house_name", name);
         fragment.setArguments(args);
         return fragment;
     }
@@ -120,17 +122,18 @@ public class MapFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapContainer);
+        fusedLocationProviderClient = (FusedLocationProviderClient) LocationServices.getFusedLocationProviderClient(requireActivity());
 
         Bundle args =  getArguments();
 
         if(args != null){
             double latitude = args.getDouble("latitude", 0.0);
             double longitude = args.getDouble("longitude", 0.0);
-            updateMapLocation(latitude, longitude);
+            String name = args.getString("boarding_house_name");
+//            updateMapLocation(latitude, longitude);
+            traceFromCurrentLocation(latitude, longitude, name);
             setArguments(null);
         }else{
-            fusedLocationProviderClient = (FusedLocationProviderClient) LocationServices.getFusedLocationProviderClient(requireActivity());
-
             Dexter.withContext(requireContext()).withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                     .withListener(new PermissionListener() {
                         @Override
@@ -206,7 +209,50 @@ public class MapFragment extends Fragment {
         });
     }
 
-    public void updateMapLocation(ArrayList<BoardingHouse> boardingHouses, int range, double latitude, double longitude){
+    public void traceFromCurrentLocation(double latitude, double longitude, String boardingHouseName){
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        Task<Location> task = fusedLocationProviderClient.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                    @Override
+                    public void onMapReady(@NonNull GoogleMap googleMap) {
+                        googleMap.clear();
+                        if(location != null){
+                            LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                            MarkerOptions currentLocationMarkerOptions = new MarkerOptions().position(currentLocation).title("Current location");
+                            googleMap.addMarker(currentLocationMarkerOptions);
+
+                            LatLng boardingHouseLocation = new LatLng(latitude, longitude);
+                            MarkerOptions boardingHouseMarkerOptions = new MarkerOptions().position(boardingHouseLocation).title("Current location");
+                            googleMap.addMarker(boardingHouseMarkerOptions);
+
+                            googleMap.addPolyline(new PolylineOptions().add(currentLocation, boardingHouseLocation).width(5).color(Color.RED));
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f));
+                        }else{
+                            Toast.makeText(requireContext(), "Permission denied.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+
+
+    private void updateMapLocation(ArrayList<BoardingHouse> boardingHouses, int range, double latitude, double longitude){
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -228,7 +274,7 @@ public class MapFragment extends Fragment {
                 for(BoardingHouse boardingHouse : boardingHouses){
                     GeoPoint boardingHouseLocation = boardingHouse.location;
                     LatLng location = new LatLng(boardingHouseLocation.getLatitude(), boardingHouseLocation.getLongitude());
-                    MarkerOptions locationMarker = new MarkerOptions().position(location).title("Nearby boardinghouse");
+                    MarkerOptions locationMarker = new MarkerOptions().position(location).title(boardingHouse.propertyName);
                     System.out.println("Latitude: " + boardingHouseLocation.getLatitude() + " Longitude: " + boardingHouseLocation.getLongitude());
                     googleMap.addMarker(locationMarker);
                 }
@@ -254,7 +300,7 @@ public class MapFragment extends Fragment {
     }
 
     //overloaded method
-    public void updateMapLocation(double latitude, double longitude){
+    private void updateMapLocation(double latitude, double longitude){
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -292,7 +338,7 @@ public class MapFragment extends Fragment {
                     DatabaseManager.getAllBoardingHouses(requireActivity(), new DatabaseManager.FetchBoardingHousesCallback() {
                         @Override
                         public void onComplete(ArrayList<BoardingHouse> boardingHouses, HashMap<BoardingHouse, String> map) {
-                            ArrayList<BoardingHouse> boardingHousesInRange = placesWithinRangeInMap(queryLocation, boardingHouses, 5);
+                            ArrayList<BoardingHouse> boardingHousesInRange = placesWithinRangeInMap(queryLocation, boardingHouses, 1);
                             updateMapLocation(boardingHousesInRange, 1, queryLocation.getLatitude(), queryLocation.getLongitude());
                         }
                     });
@@ -327,7 +373,7 @@ public class MapFragment extends Fragment {
         return null;
     }
 
-    private boolean isWithinRange(GeoPoint location1, GeoPoint location2, int range){
+    public static boolean isWithinRange(GeoPoint location1, GeoPoint location2, int range){
         Location referenceLocation = new Location("referenceLocation");
         referenceLocation.setLatitude(location1.getLatitude());
         referenceLocation.setLongitude(location1.getLongitude());

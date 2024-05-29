@@ -48,10 +48,11 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK) {
             double latitude = data.getDoubleExtra("latitude", 0.0);
             double longitude = data.getDoubleExtra("longitude", 0.0); // Get longitude value
+            String name = data.getStringExtra("boarding_house_name");
             System.out.println(latitude);
             System.out.println(longitude);
 
-            mapFragment = MapFragment.newInstance(latitude, longitude);
+            mapFragment = MapFragment.newInstance(latitude, longitude, name);
             bottomNavigationView.setSelectedItemId(R.id.mapsItem);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentsContainer, mapFragment).commit();
         }

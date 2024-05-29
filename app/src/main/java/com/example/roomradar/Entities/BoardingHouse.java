@@ -33,7 +33,7 @@ public class BoardingHouse {
 
     private BoardingHouse() {}
 
-    public String getAddress(){
+    public String getAddressString(){
         String addressString = "";
         addressString += address.get("street") + ", ";
         addressString += address.get("barangay") + ", ";
@@ -42,7 +42,7 @@ public class BoardingHouse {
         return addressString;
     }
 
-    public String getAmenities(){
+    public String getAmenitiesList(){
         String values = "";
         if(Boolean.TRUE.equals(amenities.get("hasWifi"))){
             values += "WiFi ";
@@ -80,7 +80,6 @@ public class BoardingHouse {
         return returnValue.toString();
     }
 
-    @SuppressLint("ParcelCreator")
     public static class Builder implements Parcelable {
         private BoardingHouse boardingHouse;
 
@@ -106,6 +105,20 @@ public class BoardingHouse {
         }
 
 
+        protected Builder(Parcel in) {
+        }
+
+        public static final Creator<Builder> CREATOR = new Creator<Builder>() {
+            @Override
+            public Builder createFromParcel(Parcel in) {
+                return new Builder(in);
+            }
+
+            @Override
+            public Builder[] newArray(int size) {
+                return new Builder[size];
+            }
+        };
 
         public Builder setLandlordID(String landlordID) {
             boardingHouse.landlordID = landlordID;

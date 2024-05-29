@@ -83,14 +83,14 @@ public class BoardingHouseDetails extends AppCompatActivity {
                 landlord = owner;
 
                 bhName.setText(boardingHouse.propertyName);
-                bhAddress.setText(boardingHouse.getAddress());
+                bhAddress.setText(boardingHouse.getAddressString());
                 bhPrice.setText(String.format("PHP %.0f", boardingHouse.monthlyRate));
                 bhOwner.setText(String.format("%s %s", landlord.firstName, landlord.lastName));
                 bhOwnerContact.setText(landlord.contactNumber);
                 noOfBaths.setText(String.format("%d", boardingHouse.numberOfBathrooms));
                 noOfBeds.setText(String.format("%d", boardingHouse.numberOfBeds));
                 description.setText(boardingHouse.description);
-                amenities.setText(boardingHouse.getAmenities());
+                amenities.setText(boardingHouse.getAmenitiesList());
 
                 DatabaseManager.syncImageViewFromDatabase(BoardingHouseDetails.this, landlord.getUid(), "profilePicture", landlordPicture);
                 DatabaseManager.syncImageViewFromDatabase(BoardingHouseDetails.this, boardingHouseID, "picture1", picture1);
@@ -114,6 +114,7 @@ public class BoardingHouseDetails extends AppCompatActivity {
                 Intent intent = new Intent(BoardingHouseDetails.this, BoardingHouseListActivity.class);
                 intent.putExtra("latitude", boardingHouse.location.getLatitude());
                 intent.putExtra("longitude", boardingHouse.location.getLongitude());
+                intent.putExtra("boarding_house_name", boardingHouse.propertyName);
                 setResult(Activity.RESULT_OK, intent);
 //                Toast.makeText(BoardingHouseDetails.this, String.format("Locating %s", propertyName), Toast.LENGTH_SHORT).show();
                 finish();

@@ -113,13 +113,14 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="72dp"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingTop="10sp">
+                    android:paddingTop="10sp"
+                    android:weightSum="1">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="left"
                         android:orientation="vertical"
@@ -127,8 +128,8 @@
 
                         <TextView
                             android:id="@+id/bhName"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/poppins_bold"
                             android:gravity="left"
@@ -137,8 +138,8 @@
 
                         <TextView
                             android:id="@+id/bhAddress"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/poppins_light"
                             android:gravity="left"
@@ -149,7 +150,6 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:gravity="center_horizontal|center_vertical"
                         android:orientation="vertical">
 
@@ -159,17 +159,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/poppins_medium"
-                            android:gravity="bottom|center"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:paddingEnd="10dp"
                             android:text="PHP 3500"
                             android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/textView4"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/poppins_light"
                             android:gravity="center_horizontal|center_vertical"
+                            android:paddingEnd="10dp"
                             android:paddingRight="10px"
                             android:text="per month"
                             android:textSize="12sp" />

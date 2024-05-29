@@ -2,18 +2,26 @@ package com.example.roomradar;
 
 import static androidx.core.content.ContextCompat.getSystemService;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Rect;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Parcelable;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,14 +30,28 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.roomradar.Database.DatabaseManager;
 import com.example.roomradar.Entities.BoardingHouse;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.api.Distribution;
+import com.google.firebase.firestore.GeoPoint;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -52,9 +74,12 @@ public class HomeFragment extends Fragment {
     private SearchView homeSearchView;
     private LinearLayout searchViewContainer;
     private LinearLayout featuredRoomsContainer;
+    private LinearLayout nearbyRoomsContainer;
 
     private ArrayList<BoardingHouse> boardingHouses;
     private HashMap<BoardingHouse, String> map;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+//    private SupportMapFragment supportMapFragment;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -100,6 +125,10 @@ public class HomeFragment extends Fragment {
         homeSearchView = (SearchView) view.findViewById(R.id.homeSearchView);
         searchViewContainer = (LinearLayout) view.findViewById(R.id.homeSearchViewContainer);
         featuredRoomsContainer = (LinearLayout) view.findViewById(R.id.featuredRoomsContainer);
+        nearbyRoomsContainer = (LinearLayout) view.findViewById(R.id.nearbyRoomsContainer);
+//        supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapContainer);
+        fusedLocationProviderClient = (FusedLocationProviderClient) LocationServices.getFusedLocationProviderClient(requireActivity());
+
 
         DatabaseManager.getAllBoardingHouses((Activity) requireContext(), new DatabaseManager.FetchBoardingHousesCallback() {
             @Override
@@ -123,10 +152,12 @@ public class HomeFragment extends Fragment {
                     BoardingHouse bh = boardingHouses.get(index);
                     DatabaseManager.syncImageViewFromDatabase(requireActivity(), map.get(bh), "picture1", image);
                     propertyName.setText(bh.propertyName);
-                    address.setText(bh.getAddress());
+                    address.setText(bh.getAddressString());
                     price.setText(String.format("PHP %.0f", bh.monthlyRate));
                     featuredRoomsContainer.addView(featuredBoardingHouseCard);
                 }
+
+                getCurrentLocation(boardingHouses, map);
             }
         });
 
@@ -155,34 +186,83 @@ public class HomeFragment extends Fragment {
 
     }
 
+    private void getCurrentLocation(ArrayList<BoardingHouse> boardingHouses, HashMap<BoardingHouse, String> map){
+        if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        Task<Location> task = fusedLocationProviderClient.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if(location != null){
+                    LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+
+                    LayoutInflater inflater = LayoutInflater.from(getContext());
+                    nearbyRoomsContainer.removeAllViews();
+
+                    for(int i = 0; i < boardingHouses.size(); i++){
+                        GeoPoint point1 = new GeoPoint(currentLocation.latitude, currentLocation.longitude);
+                        if(MapFragment.isWithinRange(point1, boardingHouses.get(i).location, 1)){
+                            LinearLayout featuredBoardingHouseCard = (LinearLayout) inflater.inflate(R.layout.home_featured_card, null);
+                            ShapeableImageView image = featuredBoardingHouseCard.findViewById(R.id.propertyImageView);
+                            TextView propertyName = featuredBoardingHouseCard.findViewById(R.id.propertyName);
+                            TextView address = featuredBoardingHouseCard.findViewById(R.id.address);
+                            TextView price = featuredBoardingHouseCard.findViewById(R.id.price);
+
+                            BoardingHouse bh = boardingHouses.get(i);
+                            DatabaseManager.syncImageViewFromDatabase(requireActivity(), map.get(bh), "picture2", image);
+                            propertyName.setText(bh.propertyName);
+                            address.setText(bh.getAddressString());
+                            price.setText(String.format("PHP %.0f", bh.monthlyRate));
+                            nearbyRoomsContainer.addView(featuredBoardingHouseCard);
+                        }
+                    }
+
+
+                }else{
+                    Toast.makeText(requireContext(), "Permission denied.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     private int[] getRandomIndexes(int size){
         int[] indices = new int[3];
         Random random = new Random();
         ArrayList<Integer> taken = new ArrayList<>();
 
-//        int count = 0;
-//        while(count != 3){
-//            System.out.println("hi");
-//            int randomIndex;
-//            while(true){
-//               randomIndex = random.nextInt(size);
-//               if(!taken.contains(randomIndex)){
-//                   taken.add(randomIndex);
-//                   indexes[count] = randomIndex;
-//                   break;
-//               }
-//            }
-//
-//            count++;
+        int count = 0;
+        while(count != 3){
+            System.out.println("hi");
+            int randomIndex;
+            while(true){
+               randomIndex = random.nextInt(size);
+               if(!taken.contains(randomIndex)){
+                   taken.add(randomIndex);
+                   indices[count] = randomIndex;
+                   break;
+               }
+            }
+
+            count++;
+        }
+
+//        for(int i = 0; i < 3; i++){
+//            indices[i] = random.nextInt(size);
 //        }
-
-        for(int i = 0; i < 3; i++){
-            indices[i] = random.nextInt(size);
-        }
-
-        for(int i = 0; i < 3; i++){
-            System.out.println(indices[i]);
-        }
+//
+//        for(int i = 0; i < 3; i++){
+//            System.out.println(indices[i]);
+//        }
 
         return indices;
     }

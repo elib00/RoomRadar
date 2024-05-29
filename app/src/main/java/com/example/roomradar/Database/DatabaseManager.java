@@ -170,7 +170,7 @@ public class DatabaseManager {
 
         folderRef.putBytes(new byte[0])
                 .addOnSuccessListener(taskSnapshot -> {
-                    Toast.makeText(activity, "Folder created successfully", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(activity, "Folder created successfully", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(activity, "Failed to create folder: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -270,7 +270,7 @@ public class DatabaseManager {
 //                    System.out.println(bhID);
                 }
 
-                Toast.makeText(activity, "Successful retrieving all boarding houses from database", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(activity, "Successful retrieving all boarding houses from database", Toast.LENGTH_SHORT).show();
 
             } else {
                 Toast.makeText(activity, "Failed retrieving all boarding houses from database" , Toast.LENGTH_SHORT).show();

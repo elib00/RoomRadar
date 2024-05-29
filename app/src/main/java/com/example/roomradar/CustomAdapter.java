@@ -45,7 +45,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         BoardingHouse boardingHouse = boardingHouses.get(position);
         holder.propertyName.setText(boardingHouse.propertyName);
 
-        String addressString = boardingHouse.getAddress();
+        String addressString = boardingHouse.getAddressString();
 
         System.out.println(boardingHouse.propertyName + " " +  map.get(boardingHouse));
         System.out.println(map.get(boardingHouse));
