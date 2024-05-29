@@ -316,7 +316,7 @@ public class DatabaseManager {
         });
 
     }
-    public void getLandlordOfThisBoardingHouse(Activity activity, String bhUid, final FetchLandlordCallback callback) {
+    public static void getLandlordOfThisBoardingHouse(Activity activity, String bhUid, FetchLandlordCallback callback) {
         DocumentReference bhReference = boardingHousesCollection.document(bhUid);
         bhReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -325,6 +325,7 @@ public class DatabaseManager {
                     DocumentSnapshot bhSnapshot = task.getResult();
                     if (bhSnapshot.exists()) {
                         BoardingHouse boardingHouse = bhSnapshot.toObject(BoardingHouse.class);
+                        assert boardingHouse != null;
                         String landlordId = boardingHouse.landlordID;
                         DocumentReference landlordReference = userProfileCollection.document(landlordId);
                         landlordReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

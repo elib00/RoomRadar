@@ -45,12 +45,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         BoardingHouse boardingHouse = boardingHouses.get(position);
         holder.propertyName.setText(boardingHouse.propertyName);
 
-        HashMap<String, String> addressHashMap = boardingHouse.address;
-        String addressString = "";
-        addressString += addressHashMap.get("street") + ", ";
-        addressString += addressHashMap.get("barangay") + ", ";
-        addressString += addressHashMap.get("city") + ", ";
-        addressString += addressHashMap.get("province");
+        String addressString = boardingHouse.getAddress();
 
         System.out.println(boardingHouse.propertyName + " " +  map.get(boardingHouse));
         System.out.println(map.get(boardingHouse));

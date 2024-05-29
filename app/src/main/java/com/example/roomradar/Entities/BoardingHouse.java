@@ -33,6 +33,15 @@ public class BoardingHouse {
 
     private BoardingHouse() {}
 
+    public String getAddress(){
+        String addressString = "";
+        addressString += address.get("street") + ", ";
+        addressString += address.get("barangay") + ", ";
+        addressString += address.get("city") + ", ";
+        addressString += address.get("province");
+        return addressString;
+    }
+
     @SuppressLint("ParcelCreator")
     public static class Builder implements Parcelable {
         private BoardingHouse boardingHouse;
