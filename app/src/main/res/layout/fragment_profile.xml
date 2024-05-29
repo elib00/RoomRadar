@@ -139,7 +139,7 @@
             android:shadowRadius="2"
             android:text="Log Out"
             android:textAlignment="viewStart"
-            android:textColor="#FF0000"
+            android:textColor="#000000"
             android:textColorLink="#0B1650"
             android:textSize="18sp"
             android:textStyle="bold" />

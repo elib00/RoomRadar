@@ -30,6 +30,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -274,7 +275,7 @@ public class MapFragment extends Fragment {
                 for(BoardingHouse boardingHouse : boardingHouses){
                     GeoPoint boardingHouseLocation = boardingHouse.location;
                     LatLng location = new LatLng(boardingHouseLocation.getLatitude(), boardingHouseLocation.getLongitude());
-                    MarkerOptions locationMarker = new MarkerOptions().position(location).title(boardingHouse.propertyName);
+                    MarkerOptions locationMarker = new MarkerOptions().position(location).title(boardingHouse.propertyName).icon(BitmapDescriptorFactory.defaultMarker(Color.BLUE));
                     System.out.println("Latitude: " + boardingHouseLocation.getLatitude() + " Longitude: " + boardingHouseLocation.getLongitude());
                     googleMap.addMarker(locationMarker);
                 }
