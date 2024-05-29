@@ -50,6 +50,7 @@ public class ProfileFragment extends Fragment {
     private TextView userType;
     private Button editProfileButton;
     private Button changePasswordButton;
+    private Button logoutButton;
 
 
     public ProfileFragment() {
@@ -127,6 +128,7 @@ public class ProfileFragment extends Fragment {
         userType = (TextView) view.findViewById(R.id.profileUserTypeTextView);
         editProfileButton = (Button) view.findViewById(R.id.editProfileButton);
         changePasswordButton = (Button) view.findViewById(R.id.changePasswordButton);
+        logoutButton = (Button) view.findViewById(R.id.logoutButton);
 
 
         username.setText(String.format("%s %s", DatabaseManager.currentUserLoggedIn.firstName, DatabaseManager.currentUserLoggedIn.lastName));
@@ -138,6 +140,17 @@ public class ProfileFragment extends Fragment {
         }
 
         email.setText(DatabaseManager.currentUserEmail);
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Activity activity = requireActivity();
+                Intent intent = new Intent(activity, LoginActivity.class);
+                Toast.makeText(activity, "Logged out succcessfully", Toast.LENGTH_SHORT).show();
+                activity.finish();
+                startActivity(intent);
+            }
+        });
 
     }
 

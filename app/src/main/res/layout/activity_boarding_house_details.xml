@@ -138,11 +138,11 @@
                         <TextView
                             android:id="@+id/bhAddress"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="40dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/poppins_light"
                             android:gravity="left"
-                            android:text="    Tres De Abril, Labangon"
+                            android:text="Tres De Abril, Labangon"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -166,7 +166,7 @@
                         <TextView
                             android:id="@+id/textView4"
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"
+                            android:layout_height="40dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/poppins_light"
                             android:gravity="center_horizontal|center_vertical"
